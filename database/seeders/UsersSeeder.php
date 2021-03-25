@@ -20,8 +20,9 @@ class UsersSeeder extends Seeder
             'last_name' => 'Policarpio',
             'email' => 'patrickpolicarpio08@gmail.com',
             'password' => bcrypt('011898Policarpio'),
-            'user_type' => 1,
-            'is_enabled' => true
+            'user_role_id' => 1,
+            'is_enabled' => true,
+            'is_verified' => true
         ]);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFieldsToUsersTable extends Migration
+class AddUserTypeIdToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,9 @@ class AddFieldsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['name', 'email_verified_at']);
-            $table->string('first_name', 100);
-            $table->string('middle_name', 100);
-            $table->string('last_name', 100);
-            $table->boolean('is_enabled')->default(0);
-            $table->boolean('is_verified')->default(0);
+            $table->foreignId('user_role_id')
+                  ->constrained('user_roles')
+                  ->after('id');
         });
     }
 
@@ -31,7 +28,7 @@ class AddFieldsToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['first_name', 'middle_name', 'last_name', 'is_enabled', 'is_verified']);
+            $table->dropForeign('user_role_id');
         });
     }
 }

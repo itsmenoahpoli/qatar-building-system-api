@@ -15,7 +15,9 @@ class CreateLogUserSessionsTable extends Migration
     {
         Schema::create('log_user_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')
+                  ->constrained('users')
+                  ->onDelete('cascade');
             $table->longText('message');
             $table->timestamps();
 
