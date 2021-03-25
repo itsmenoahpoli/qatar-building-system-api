@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// Modules
+use App\Http\Controllers\API\AuthenticationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['prefix' => 'auth'], function() {
+    Route::group(['prefix' => 'user'], function() {
+        Route::post('/login', [AuthenticationController::class, 'login'])->name('auth.user.login');
+
+        Route::group(['middleware' => 'auth:api'], function() {
+            Route::post('/current-user', [AuthenticationController::class, 'current-user'])->name('auth.user.current-user');
+            Route::post('/logout', [AuthenticationController::class, 'logout'])->name('auth.user.logout');
+        });
+    });
 });
