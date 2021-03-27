@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUserTypeIdToUsersTable extends Migration
+class CreateApplicationRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class AddUserTypeIdToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('user_role_id')
-                  ->constrained('user_roles')
-                  ->after('id');
+        Schema::create('application_records', function (Blueprint $table) {
+            $table->id();
+            $table->string('uuid', 100);
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -27,8 +28,6 @@ class AddUserTypeIdToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('user_role_id');
-        });
+        Schema::dropIfExists('application_records');
     }
 }

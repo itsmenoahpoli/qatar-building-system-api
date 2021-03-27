@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Models\LogUserSession;
 
 trait Logging {
-	public function saveLog(array $log) {
+	public function saveAuthLog(array $log) {
 		LogUserSession::create([
 			'user_id' => $log['user_id'],
 			'message' => $log['message']

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
 use App\Traits\Logging;
+use App\Models\UserRole;
 use Auth;
 use DB;
 
@@ -20,12 +21,12 @@ class AuthenticationController extends Controller
         if(Auth::attempt($credentials)) {
             $accessToken = Auth::user()->createToken('accessToken')->accessToken;
 
-            $this->saveLog(['user_id' => Auth::user()->id, 'message' => 'Successfully logged-in']);
+            $this->saveAuthLog(['user_id' => Auth::user()->id, 'message' => 'Successfully logged-in']);
 
             return response()->json([
                 'accessToken' => $accessToken,
                 'user' => Auth::user(),
-                'user_type' => $this->getUserType(Auth::user()->user_type)
+                'user_type' => $this->getUserRole(Auth::user()->user_role_id)
             ], 200);
         }
 
@@ -37,7 +38,7 @@ class AuthenticationController extends Controller
         $user->token()->revoke();
 
         if($request->logout_type === "all_session") {
-            $this->saveLog(['user_id' => Auth::user()->id, 'message' => 'Successfully logged-out in all sessions']);
+            $this->saveAuthLog(['user_id' => Auth::user()->id, 'message' => 'Successfully logged-out in all sessions']);
 
             DB::table('oauth_access_tokens')
             ->where('user_id', $user->id)
@@ -46,7 +47,7 @@ class AuthenticationController extends Controller
             ]);
         }
 
-        $this->saveLog(['user_id' => Auth::user()->id, 'message' => 'Successfully logged-out']);
+        $this->saveAuthLog(['user_id' => Auth::user()->id, 'message' => 'Successfully logged-out']);
 
         return response()->json('Logged-out', 200);
     }
@@ -55,19 +56,9 @@ class AuthenticationController extends Controller
         
     }
 
-    public function getUserType(int $user_type_id = 0) {
-        switch($user_type_id) {
-            case 1:
-                return 'admin';
-                break;
-            case 2:
-                return 'engineer';
-                break;
-            case 3:
-                return 'client';
-                break;
-            default:
-                return 'unknown_user_type';
-        }
+    public function getUserRole(int $role_id = 0) {
+        $role = UserRole::find($role_id)->first();
+
+        return $role;
     }
 }
