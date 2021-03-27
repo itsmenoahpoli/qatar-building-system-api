@@ -59,6 +59,10 @@ class AuthenticationController extends Controller
     public function getUserRole(int $role_id = 0) {
         $role = UserRole::find($role_id)->first();
 
+        if(!$role) {
+            return 'invalid-user-type';
+        }
+
         return $role;
     }
 }
