@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Models\LogUserSession;
+use App\Models\Logs\LogUserSession;
 
 trait Logging {
 	public function saveAuthLog(array $log) {

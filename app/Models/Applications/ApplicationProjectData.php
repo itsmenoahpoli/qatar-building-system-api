@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Applications;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApplicationOwnerData extends Model
+class ApplicationProjectData extends Model
 {
     use HasFactory;
 }
