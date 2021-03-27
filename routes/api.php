@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Modules
 use App\Http\Controllers\API\AuthenticationController;
+use App\Http\Controllers\API\ApplicationRecordsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +27,11 @@ Route::group(['prefix' => 'auth'], function() {
         Route::post('/login', [AuthenticationController::class, 'login'])->name('auth.user.login');
 
         Route::group(['middleware' => 'auth:api'], function() {
-            Route::post('/current-user', [AuthenticationController::class, 'current-user'])->name('auth.user.current-user');
+            Route::post('/current-user', [AuthenticationController::class, 'current_user'])->name('auth.user.current-user');
             Route::post('/logout', [AuthenticationController::class, 'logout'])->name('auth.user.logout');
         });
     });
 });
+
+
+Route::apiResource('application-records', ApplicationRecordsController::class);
