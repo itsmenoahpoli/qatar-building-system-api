@@ -4,12 +4,20 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Resources\ApplicationRecordsResource;
 use App\Models\Applications\ApplicationRecord;
+use App\Models\Applications\ApplicationPropertyData;
+use App\Models\Applications\ApplicationOwnerData;
+use App\Models\Applications\ApplicationApplicantData;
+use App\Models\Applications\ApplicationProjectData;
+use App\Models\Applications\ApplicationOthersData;
+use App\Models\Applications\ApplicationAttachementData;
+use DB;
 
 class ApplicationRecordsController extends Controller
 {
-    public $relationships;
+    private $relationships;
 
     public function __construct() {
         $this->relationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'attachement_data', 'review_data'];
@@ -20,8 +28,13 @@ class ApplicationRecordsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+        $limit = $request->get('limit') ?? 10;
+
+        return $request->all();
+
         $applications = ApplicationRecord::with($this->relationships)->get();
 
         return $applications;
@@ -40,16 +53,6 @@ class ApplicationRecordsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -57,7 +60,28 @@ class ApplicationRecordsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_id = 1;
+
+        try {
+            $application_record = ApplicationRecord::create([
+                'uuid' => 'application_'.Str::random(4)
+            ]);
+
+            // Start transaction
+            DB::beginTransaction();
+            
+            // Queries
+
+            DB::commit();
+            // End transaction
+
+            $application_data_overview = [];
+
+            return response()->json($application_data_overview, 201);
+        } catch(Exception $e) {
+            DB::rollback();
+            return response()->json('Failed', 500);
+        }
     }
 
     /**
@@ -67,17 +91,6 @@ class ApplicationRecordsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
@@ -103,5 +116,9 @@ class ApplicationRecordsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function __deconstruct() {
+        $this->relationships = "";
     }
 }
