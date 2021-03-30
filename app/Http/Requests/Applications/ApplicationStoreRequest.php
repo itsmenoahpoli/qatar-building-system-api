@@ -4,7 +4,7 @@ namespace App\Http\Requests\Applications;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ApplicationRecord extends FormRequest
+class ApplicationStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ApplicationRecord extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

@@ -26,7 +26,7 @@ class AuthenticationController extends Controller
         if(Auth::attempt($credentials)) {
             $accessToken = Auth::user()->createToken('accessToken')->accessToken;
 
-            $this->saveAuthLog([
+            $this->save_authentication_log([
                 'user_id' => Auth::user()->id, 
                 'message' => 'Successfully logged-in'
             ]);
@@ -51,7 +51,7 @@ class AuthenticationController extends Controller
         $user->token()->revoke();
 
         if($request->logout_type === "all_session") {
-            $this->saveAuthLog([
+            $this->save_authentication_log([
                 'user_id' => Auth::user()->id, 
                 'message' => 'Successfully logged-out in all sessions'
             ]);
@@ -63,7 +63,7 @@ class AuthenticationController extends Controller
             ]);
         }
 
-        $this->saveAuthLog([
+        $this->save_authentication_log([
             'user_id' => Auth::user()->id, 
             'message' => 'Successfully logged-out'
         ]);

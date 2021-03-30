@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Resources\ApplicationRecordsResource;
+use App\Http\Requests\Applications\ApplicationStoreRequest;
 use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationPropertyData;
 use App\Models\Applications\ApplicationOwnerData;
@@ -58,9 +59,11 @@ class ApplicationRecordsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ApplicationStoreRequest $request)
     {
         $user_id = 1;
+
+        return $request->application_applicant_data;
 
         try {
             $application_record = ApplicationRecord::create([
