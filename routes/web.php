@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Modules
+use App\Http\Controllers\Frontend\PagesController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PagesController::class, 'api_index'])->name('documentation.api.index');

@@ -32,7 +32,6 @@ class ApplicationRecordsController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $limit = $request->get('limit') ?? 10;
 
         return $request->all();
 
@@ -48,9 +47,10 @@ class ApplicationRecordsController extends Controller
      */
     public function paginated(Request $request)
     {
+        $limit = $request->get('limit') ?? 10;
         $applications = ApplicationRecord::with($this->relationships)->get();
 
-        return ApplicationRecordsResource::collection($applications)->paginate($request->limit ?? 10);
+        return ApplicationRecordsResource::collection($applications)->paginate($limit ?? 10);
     }
 
     /**
@@ -63,26 +63,40 @@ class ApplicationRecordsController extends Controller
     {
         $user_id = 1;
 
-        return $request->application_applicant_data;
+        return $request->all();
 
         try {
+            // $application_record = ApplicationRecord::create([
+            //     'uuid' => 'application_'.Str::random(4)
+            // ]);
+
             $application_record = ApplicationRecord::create([
-                'uuid' => 'application_'.Str::random(4)
+                'uuid' => $request->data
             ]);
 
             // Start transaction
-            DB::beginTransaction();
+            // DB::beginTransaction();
             
-            // Queries
+            // Store Applicant Data
+            // $application_property_data = ApplicationPropertyData::create($request->application_property_data);
+            // Store Owner Data
+            // Store Applicant Data
+            // Store Project Data
+            // Store Others Data
+            // Store Attachement Data
+            // Store Review Data
 
-            DB::commit();
+            // DB::commit();
             // End transaction
 
-            $application_data_overview = [];
+            // $application_data_overview = [
+            //     'application_record_data' => $application_record,
+            //     'application_property_data' => $application_property_data
+            // ];
 
             return response()->json($application_data_overview, 201);
         } catch(Exception $e) {
-            DB::rollback();
+            // DB::rollback();
             return response()->json('Failed', 500);
         }
     }
