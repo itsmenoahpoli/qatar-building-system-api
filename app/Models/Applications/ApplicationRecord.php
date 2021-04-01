@@ -13,30 +13,30 @@ class ApplicationRecord extends Model
     protected $guarded = [];
 
     public function property_data() {
-        return $this->hasOne('App\Models\Application\ApplicationPropertyData');
+        return $this->hasOne('App\Models\Applications\ApplicationPropertyData');
     }
 
     public function owner_data() {
-        return $this->hasOne('App\Models\Application\ApplicationOwnerData');
+        return $this->hasOne('App\Models\Applications\ApplicationOwnerData');
     }
 
     public function applicant_data() {
-        return $this->hasOne('App\Models\Application\ApplicationApplicantData');
+        return $this->hasOne('App\Models\Applications\ApplicationApplicantData');
     }
 
     public function project_data() {
-        return $this->hasOne('App\Models\Application\ApplicationProjectData');
+        return $this->hasOne('App\Models\Applications\ApplicationProjectData');
     }
 
     public function others_data() {
-        return $this->hasOne('App\Models\Application\ApplicationOthersData');
+        return $this->hasOne('App\Models\Applications\ApplicationOthersData');
     }
 
     public function attachement_data() {
-        return $this->hasOne('App\Models\Application\ApplicationAttachementData');
+        return $this->hasOne('App\Models\Applications\ApplicationAttachementData');
     }
 
     public function review_data() {
-        return $this->hasOne('App\Models\Application\ApplicationReviewData');
+        return $this->hasOne('App\Models\Applications\ApplicationReviewData');
     }
 }

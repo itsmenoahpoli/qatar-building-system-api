@@ -38,9 +38,10 @@ class ApplicationStoreRequest extends FormRequest
 
             // Owner Data
             'application_owner_data.name' => 'required',
-            'application_owner_data.lisence_no' => 'required',
+            'application_owner_data.license_no' => 'required',
             'application_owner_data.mobile_no' => 'required',
             'application_owner_data.comments' => 'required',
+
             // Applicant Data
             'application_applicant_data.user_id' => 'required',
             'application_applicant_data.type_of_applicant' => 'required',
@@ -48,11 +49,13 @@ class ApplicationStoreRequest extends FormRequest
             'application_applicant_data.license_no' => 'required',
             'application_applicant_data.mobile_no' => 'required',
             'application_applicant_data.comments' => 'required',
+
             // Project Data
             'application_project_data.type' => 'required',
             'application_project_data.name' => 'required',
             'application_project_data.no_of_floors' => 'required',
             'application_project_data.others' => 'required',
+
             // Others Data
             'application_others_data.quote_no' => 'required',
             'application_others_data.client_no' => 'required',
@@ -60,12 +63,13 @@ class ApplicationStoreRequest extends FormRequest
             'application_others_data.required_works' => 'required',
             'application_others_data.others' => 'required',
             'application_others_data.services_fees' => 'required',
+
             // Review Data
-            'application_others_data.engineer_category' => 'required',
-            'application_others_data.engineer_id' => 'required',
-            'application_others_data.building_permit_fees' => 'required',
-            'application_others_data.status' => 'required',
-            'application_others_data.others' => 'required',
+            'application_review_data.engineer_category' => 'required',
+            'application_review_data.engineer_id' => 'required',
+            'application_review_data.building_permit_fees' => 'required',
+            'application_review_data.status' => 'required',
+            'application_review_data.others' => 'required',
 
             // Attachement Data
         ];

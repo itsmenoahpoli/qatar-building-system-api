@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyAccount extends Mailable
+class PasswordChanged extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class VerifyAccount extends Mailable
      */
     public function build()
     {
-        return $this->markdown('users.account.verify');
+        return $this->markdown('emails.users.password-changed');
     }
 }
