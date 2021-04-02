@@ -13,7 +13,7 @@ class CreateApplicationAttachementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_attachements', function (Blueprint $table) {
+        Schema::create('application_attachement_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_record_id')
                   ->constrained('application_records');
@@ -30,10 +30,10 @@ class CreateApplicationAttachementsTable extends Migration
      */
     public function down()
     {
-        Schema::table('application_attachements', function (Blueprint $table) {
+        Schema::table('application_attachement_data', function (Blueprint $table) {
             $table->dropForeign(['application_record_id']);
         });
 
-        Schema::dropIfExists('application_attachements');
+        Schema::dropIfExists('application_attachement_data');
     }
 }

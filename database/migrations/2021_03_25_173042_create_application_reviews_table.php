@@ -13,7 +13,7 @@ class CreateApplicationReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('application_reviews', function (Blueprint $table) {
+        Schema::create('application_review_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('application_record_id')
                   ->constrained('application_records');
@@ -33,10 +33,10 @@ class CreateApplicationReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::table('application_reviews', function (Blueprint $table) {
+        Schema::table('application_review_data', function (Blueprint $table) {
             $table->dropForeign(['application_record_id']);
         });
 
-        Schema::dropIfExists('application_reviews');
+        Schema::dropIfExists('application_review_data');
     }
 }
