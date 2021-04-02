@@ -34,9 +34,7 @@ class ApplicationRecordsController extends Controller
     {
         $search = $request->get('search');
 
-        $applications = ApplicationRecord::with($this->relationships)
-                                            ->orderBy('created_at', 'desc')
-                                            ->get();
+        $applications = ApplicationRecord::with($this->relationships)->latest()->get();
 
         return $applications;
     }
@@ -49,7 +47,7 @@ class ApplicationRecordsController extends Controller
     public function paginated(Request $request)
     {
         $limit = $request->get('limit') ?? 10;
-        $applications = ApplicationRecord::with($this->relationships)->get();
+        $applications = ApplicationRecord::with($this->relationships)->latest()->get();
 
         return ApplicationRecordsResource::collection($applications)->paginate($limit ?? 10);
     }
@@ -181,7 +179,15 @@ class ApplicationRecordsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $appliction_record = ApplicationRecord::findOrFail($id);
+        
+        try {
+            $appliction_record->delete();
+            
+            return response()->json('Deleted', 204);
+        } catch(Exception $e) {
+            return response()->json('Failed', 500);
+        }
     }
 
     public function __deconstruct() {
