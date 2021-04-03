@@ -45,4 +45,8 @@ class User extends Authenticatable
     public function auth_sessions() {
         return $this->hasMany('App\Models\LogUserSession');
     }
+
+    public function otp_codes() {
+      return $this->hasMany('App\Models\UserOtp');
+    }
 }
