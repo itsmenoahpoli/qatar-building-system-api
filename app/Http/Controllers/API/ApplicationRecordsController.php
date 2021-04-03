@@ -156,7 +156,13 @@ class ApplicationRecordsController extends Controller
      */
     public function show($id)
     {
-        return ApplicationRecord::with($this->relationships)->firstOrFail($id);
+        return ApplicationRecord::with($this->relationships)->findOrFail($id);
+    }
+
+    public function show_by_uuid($uuid) {
+        $application_record = ApplicationRecord::with($this->relationships)->where('uuid', '=', $uuid)->get();
+
+        return count($application_record) === 1 ? response()->json($application_record->first(), 200) : response()->json('Not Found', 404);
     }
 
     /**

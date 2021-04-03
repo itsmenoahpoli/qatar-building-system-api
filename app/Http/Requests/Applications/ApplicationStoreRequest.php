@@ -71,7 +71,7 @@ class ApplicationStoreRequest extends FormRequest
             'application_review_data.status' => 'required',
             'application_review_data.others' => 'required',
 
-            // Attachement Data
+            // Attachement Data (Images)
         ];
     }
 }
