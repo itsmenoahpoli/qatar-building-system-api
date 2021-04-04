@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "38d963c5-89ae-4aa4-a1c1-23426ef83140",
+		"name": "Electronic Building Permit Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth - Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"patrickpolicarpio08@gmail.com\",\r\n\t\"password\": \"011898Policarpio\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/auth/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth - Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZTU3YzJmZjdmNzMxNzViNzFiZjNjMjc5NjcyZmMyYjc0NDkzNTIzNWQ0YjAyOGJmYjFhMjFiMjlmYzgxMmM4MDZkMmViMjdiNzI4OWM2YjciLCJpYXQiOjE2MTczOTE2NTEuMzQzNjEzLCJuYmYiOjE2MTczOTE2NTEuMzQzNjI5LCJleHAiOjE2NDg5Mjc2NTAuNzk0OTQzLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AnH6-OGyttHvQXrWsHDTfA1fKSxUukWbLRa5CT0UcQ3KKMMpfxWhJM4ynOPpJ-baMNjbvuSNkhGBuDAwzlWwS7z5BaboWrqm3fxclk2Ft6Zthkd4JZuBe9sk2f_My-iU8tv11f86qEg4fHadvzI4Dk930_cbfPJeNYD5Bs9fLaGy6nN5agKgkMS2U5uC4uiCNIIUMeRWVYf-X9VG6zwAD7oUH9Ixfx7WqRLa62ENxBSCij9hcOPvJlFLFLcvYSJruPUpnfnMT5-Iis5tFJur9_aN3ritTuoTKyJpd1tjuDkr4qCQdw1rW4OJJRJB0d4m4oqMPeK-e0K5e2FIHAeQjq9KOAYjfVYZZpz1PvOGmmOZHs2CK81RXsd-QTe0MfNkt6IPvjGi8jO2zRsujXTOpibooIawttbhrGaJJJCt1jXazpWRHSLL9_x1s7MaVQ8O9w2emmpq9-xGdvu3e6mXGfIUl0m-lE0SHXSMFNqrwKCZ7bW43o4H__L4mvefkzpxN30WjqjkYIjLDexpfLkHJ0IjdYqoApHC_zM3Wdx_-RVIS4jGP5LumWYS7U6RI-Ck56nUUDYtOJ8INAsmAEMcDEfnBNNkANCmOY9-Po35bOIEnbSn9LZekoMwPDXSDlNETF9O7KqRV5W9c6epQrbK_RJ77JyqXdYkY-MLb34W-DI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/auth/user/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth - Current User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMGIxOGQ4OTU5NTkwMzA0ODc5YmQ0YTdkMDRiZDcxYjgyMGQ5YWRjMTUzNTE2MGU1ODljMzk2YzE3OTBhNmExYTEwN2IzZWU1YzA4OTRmNDkiLCJpYXQiOjE2MTczOTE4NTQuNDg5Njc1LCJuYmYiOjE2MTczOTE4NTQuNDg5NzEsImV4cCI6MTY0ODkyNzg1NC40NDE0MDQsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ZouDaBHdlXwKdrZPR1vSZoW828U5Dml3wmsofmqOnG797NwDAc0Wy7JXyAc-Ph_ZmUGu4R9U9QKRkHRFoijC_pbOgavD3frMmDadkbeYm4MZwMwn2fbO6pvZ-Cu95-RnXJPF-DaOJH85cHIDQD7WAFYWvDD5m8txYzYbTF1P_5yarNwpdKKZLodhgOu9xqBlQAP6TbX42WJKyrnxlGZnnf8Qjwh6Xwb6iHApQcFxUX3No2F_mviTAdqcEBUXHsVMWkWOZf95OC4dFgDTr-GlXYk0a8spNR9adZ6q8mPgja0c2zk7riedfhqx6Iw5KEASzKTFPhInqw_p0QZb-LlqaueV8zta3B9JzfSD7969PweVK13bj2kMedvExDxnNYn7Bcs2MyLIXiuRrO1xeGOG3OCTyhxaIqDTmWBVb6u1dHxySgCVfE7cKhJOqq7UeWJVIxy7lNGYnSkwwt3jz5I6JMzRCvzS8gH83_QWUmn1h67bistJo4HEJihoauLi3ek-heBUqCQ0AKCBKdJ6CYesYudSXPhdhWnWh4bfEgiGTlgvifmZeR0c-2jFs9oI9Sn4JIdJSHYP01I165d97EZBdNv3WKncyakWEqUK0hUqFpO38G_WDv2LiQwvpxnkZrTsFFHaHGYgacobUsG3AoI2D6fYKO3VviNiu5ASry_VxPw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/auth/user/current-user",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"current-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth - Request OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/auth/user/request-otp/patrickpolicarpio08@gmail.com",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"request-otp",
+						"patrickpolicarpio08@gmail.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Auth - Verify OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"otp_code\": \"JWKICSOW\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/auth/user/verify-otp",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"auth",
+						"user",
+						"verify-otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Application Records - Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/application-records/{id}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"application-records",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Application Records - Get (Single)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/application-records/{id}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"application-records",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Application Records - Get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/application-records/",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"application-records",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Application Records - Get By UUID (Single)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/application-records/get-by-uuid/{uuid}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"application-records",
+						"get-by-uuid",
+						"{uuid}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Application Records - Create",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"application_property_data\": {\r\n\t\t\"pin_no\": \"value\",\r\n\t\t\"municipality\": \"value\",\r\n\t\t\"location\": \"value\",\r\n\t\t\"street_no\": \"value\",\r\n\t\t\"street_name\": \"value\",\r\n\t\t\"real_estate_no\": \"value\",\r\n\t\t\"land_no\": \"value\",\r\n\t\t\"title_deed\": \"value\",\r\n\t\t\"area_space\": \"value\",\r\n\t\t\"total_build_up_area\": \"value\"\r\n\t},\r\n\t\"application_owner_data\": {\r\n\t\t\"name\": \"value\",\r\n\t\t\"license_no\": \"value\",\r\n\t\t\"mobile_no\": \"value\",\r\n\t\t\"comments\": \"value\"\r\n\t},\r\n\t\"application_applicant_data\": {\r\n\t\t\"user_id\": 1,\r\n\t\t\"type_of_applicant\": \"value\",\r\n\t\t\"name\": \"value\",\r\n\t\t\"license_no\": \"value\",\r\n\t\t\"mobile_no\": \"value\"\r\n\t},\r\n\t\"application_project_data\": {\r\n\t\t\"type\": \"value\",\r\n\t\t\"name\": \"value\",\r\n\t\t\"no_of_floors\": \"value\",\r\n\t\t\"others\": \"value\"\r\n\t},\r\n\t\"application_others_data\": {\r\n\t\t\"quote_no\": \"value\",\r\n\t\t\"client_no\": \"value\",\r\n\t\t\"client_name\": \"value\",\r\n\t\t\"required_works\": \"value\",\r\n\t\t\"others\": \"value\",\r\n\t\t\"services_fees\": \"value\"\r\n\t},\r\n\t\"application_review_data\": {\r\n\t\t\"engineer_category\": \"value\",\r\n\t\t\"engineer_id\": \"value\",\r\n\t\t\"building_permit_fees\": \"value\",\r\n\t\t\"status\": \"value\",\r\n\t\t\"others\": \"value\"\r\n\t}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/application-records",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"application-records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Records - Get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/payments",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Payment Records - Get (Single)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/payments/{id}",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"payments",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
