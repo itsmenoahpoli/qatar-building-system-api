@@ -48,7 +48,6 @@ class ApplicationStoreRequest extends FormRequest
             'application_applicant_data.name' => 'required',
             'application_applicant_data.license_no' => 'required',
             'application_applicant_data.mobile_no' => 'required',
-            'application_applicant_data.comments' => 'required',
 
             // Project Data
             'application_project_data.type' => 'required',

@@ -22,7 +22,7 @@ class ApplicationRecordsController extends Controller
     private $relationships;
 
     public function __construct() {
-        $this->relationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'attachement_data', 'review_data'];
+        $this->relationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data'];
     }
 
     /**

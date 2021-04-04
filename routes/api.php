@@ -34,4 +34,4 @@ Route::group(['prefix' => 'auth'], function() {
 
 
 Route::apiResource('application-records', ApplicationRecordsController::class);
-Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
+// Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
