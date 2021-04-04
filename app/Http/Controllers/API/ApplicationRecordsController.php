@@ -231,6 +231,17 @@ class ApplicationRecordsController extends Controller
 
     }
 
+    /**
+     * Hard delete the specified resource from storage (Iretrievable).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function hard_delete($id)
+    {
+        
+    }    
+
     public function __deconstruct() {
         $this->relationships = NULL;
     }
