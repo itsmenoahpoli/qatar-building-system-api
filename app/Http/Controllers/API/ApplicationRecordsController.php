@@ -60,6 +60,7 @@ class ApplicationRecordsController extends Controller
      */
     public function store(ApplicationStoreRequest $request)
     {
+        // TODO: Generate PDF for archiving and send carbon copy (PDF format) to superadmin via email
         try {
             // Start transaction
             DB::beginTransaction();
@@ -194,6 +195,40 @@ class ApplicationRecordsController extends Controller
         } catch(Exception $e) {
             return response()->json('Failed', 500);
         }
+    }
+
+    /**
+     * Retrieve all soft deleted records (Single).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function view_deleted(Request $request) 
+    {
+      $search = $request->search;
+      $limit = $request->limit ?? 10;
+    }
+
+    /**
+     * Restore the specified resource from soft deleted records (Single).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore_deleted($id) 
+    {
+
+    }
+
+    /**
+     * Restore the specified resource from soft deleted records (All).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore_all_deleted() 
+    {
+
     }
 
     public function __deconstruct() {
