@@ -12,6 +12,6 @@ class UserOtp extends Model
     protected $guarded = [];
 
     public function user() {
-      return $this->belongsTo('App\Models\UserOtp');
+      return $this->belongsTo('App\Models\User');
     }
 }

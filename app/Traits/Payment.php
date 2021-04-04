@@ -2,6 +2,6 @@
 
 namespace App\Traits;
 
-trait Payment{
+trait Payment {
   
 }

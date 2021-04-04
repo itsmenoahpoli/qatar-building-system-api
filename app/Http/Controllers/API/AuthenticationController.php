@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
+use App\Http\Controllers\API\OtpController;
 use App\Models\UserRole;
 use App\Traits\Logging;
 use App\Traits\AuditTrail;
@@ -15,6 +16,12 @@ use DB;
 class AuthenticationController extends Controller
 {
     use Logging, AuditTrail; 
+
+    private $otp_controller;
+
+    public function __construct(OtpController $otp_controller) {
+      $this->otp_controller = $otp_controller;
+    }
 
     public function current_user(Request $request) {
         $user_data = [
@@ -40,6 +47,8 @@ class AuthenticationController extends Controller
                 'user_id' => Auth::user()->id, 
                 'message' => Auth::user()->first_name.' '.Auth::user()->last_name.' successfully logged-in to the system'
             ]);
+
+            $this->otp_controller->request_otp(Auth::user()->email);
 
             return response()->json([
                 'accessToken' => $accessToken,

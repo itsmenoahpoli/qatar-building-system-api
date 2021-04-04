@@ -20,6 +20,7 @@ class CreateUserOtpsTable extends Migration
                   ->onDelete('cascade');
             $table->string('otp_code', 32);
             $table->boolean('is_verified')->default(0);
+            $table->dateTime('expires_at')->nullable();
             $table->timestamps();
         });
     }

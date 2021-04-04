@@ -22,7 +22,7 @@ use App\Http\Controllers\API\ApplicationRecordsController;
 Route::group(['prefix' => 'auth'], function() {
     Route::group(['prefix' => 'user'], function() {
         Route::post('/login', [AuthenticationController::class, 'login'])->name('auth.user.login');
-        Route::post('/request-otp', [OtpController::class, 'request_otp'])->name('auth.user.request-otp');
+        Route::post('/request-otp/{email}', [OtpController::class, 'request_otp'])->name('auth.user.request-otp');
         Route::post('/verify-otp', [OtpController::class, 'verify_otp'])->name('auth.user.verify-otp');
 
         Route::group(['middleware' => 'auth:api'], function() {
