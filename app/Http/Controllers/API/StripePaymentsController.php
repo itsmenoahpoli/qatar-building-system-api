@@ -24,9 +24,7 @@ class StripePaymentsController extends Controller
     {
       try {
         $limit = $request->get('limit') ?? 0;
-        $payment_charges_list = $this->stripe_client->charges->all([
-          'limit' => $limit
-        ]);
+        $payment_charges_list = $this->stripe_client->charges->all();
 
         return $payment_charges_list;
       } catch(Exception $e) {
