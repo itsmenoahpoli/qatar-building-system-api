@@ -48,16 +48,16 @@ class AuthenticationController extends Controller
                 'message' => Auth::user()->first_name.' '.Auth::user()->last_name.' successfully logged-in to the system'
             ]);
 
-            $this->otp_controller->request_otp(Auth::user()->email);
+            $this->otp_controller->request_otp(Auth::user()->email, "login_verify");
 
             return response()->json([
                 'accessToken' => $accessToken,
                 'user' => Auth::user(),
                 'user_type' => $this->get_user_role(Auth::user()->user_role_id)
             ], 200);
+        } else {
+          return response()->json('User not found', 404);
         }
-
-        return response()->json('User not found', 404);
     }
 
     public function logout(Request $request) {

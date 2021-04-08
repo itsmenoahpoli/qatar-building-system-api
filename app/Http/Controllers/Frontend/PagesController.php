@@ -11,7 +11,7 @@ use App\Traits\Payment;
 class PagesController extends Controller
 {
     use Payment;
-    
+
     private $applicationRecordRelationships;
 
     public function __construct() {
@@ -40,7 +40,9 @@ class PagesController extends Controller
         return view('payments.stripe.create-payment')->with([
           'payment_for' => $this->get_payment_for_str($application_payment_record->payment_for),
           'payment_data_found' => true,
+          'payment_data_amount' => $application_payment_record->amount,
           'payment_data_paid' => $application_payment_record->is_paid,
+          'payment_data_receipt_url' => $application_payment_record->stripe_receipt_url,
           'application_payment_uuid' => $application_payment_uuid,
           'application_record_data' => $application_record
         ]);
@@ -50,5 +52,12 @@ class PagesController extends Controller
       return view('payments.stripe.create-payment')->with([
         'payment_data_found' => false
       ]);
+    }
+
+    /**
+     * Stripe failed payment
+     */
+    public function stripe_success_payment() {
+      return view('payments.stripe.success-payment');
     }
 }

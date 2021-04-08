@@ -2,9 +2,13 @@
 
 ### Below is your one-time-passcode
 
-<small> Your OTP will expire at {{ $expires_at }} </small>
+<br />
 
-@component('mail::panel')
+@if($otp_type === "verify")
+<small> Your account verification OTP will expire at {{ $expires_at }} </small>
+@else
+<small> Your login verification OTP will expire at {{ $expires_at }} </small>
+@endif @component('mail::panel')
 {{ $otp_code }}
 @endcomponent
 

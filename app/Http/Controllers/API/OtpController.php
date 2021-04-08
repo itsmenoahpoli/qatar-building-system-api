@@ -18,7 +18,7 @@ class OtpController extends Controller
    * Request a new OTP.
    * @return \Illuminate\Http\Response
    */
-  public function request_otp($email) {
+  public function request_otp($email, $otp_type = "verify") {
     try {
       $user = User::whereEmail($email)->firstOrFail();
       $user_name = $user->first_name.' '.$user->last_name;
@@ -26,12 +26,18 @@ class OtpController extends Controller
       $otp = UserOtp::create([
         'user_id' => $user->id,
         'otp_code' => strtoupper(Str::random(8)),
+        'otp_type' => $otp_type === "verify" ? "verify" : "login_verify",
         'expires_at' => Carbon::now()->addDay(1)
       ]);
 
       $created_otp = UserOtp::with('user')->find($otp->id);
 
-      Mail::to($email)->send(new OtpMail(['otp_code' => $otp->otp_code, 'user_name' => $user_name, 'expires_at' => $otp->expires_at]));
+      Mail::to($email)->send(new OtpMail([
+        'otp_type' => $otp_type === "verify" ? "verify" : "login_verify",
+        'otp_code' => $otp->otp_code, 
+        'user_name' => $user_name, 
+        'expires_at' => $otp->expires_at
+      ]));
 
       return response()->json($created_otp, 201);
     } catch(Exception $e) {

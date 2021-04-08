@@ -139,148 +139,11 @@
 					/>
 				</div>
 
-				@if($payment_data_found)
-				<div class="card">
-					<div class="card-body">
-						@if($payment_data_paid)
-						<div class="col-lg-3 px-3 mx-auto mb-3">
-							<img
-								src="{{ asset('images/icons/info.png') }}"
-								alt="KIC brand"
-								class="img-fluid"
-							/>
-						</div>
-
-						<div>
-							<h5 class="text-muted text-center mb-4">
-								Payment Information Summary
-							</h5>
-
-							<hr />
-
-							<div class="d-flex justify-content-between pt-3">
-								<div class="bold-texts">
-									<p className="text-muted">
-										Application Record #
-									</p>
-
-									<p className="text-muted">Payment amount</p>
-
-									<p className="text-muted">Payment for</p>
-
-									<p className="text-muted">Payment status</p>
-
-									<p className="text-muted">Payment at</p>
-
-                  <p className="text-muted">Payment receipt</p>
-								</div>
-
-								<div>
-									<p>
-										{{ $application_record_data->uuid }}
-									</p>
-
-                  
-									<p>
-										QAR {{ substr_replace($payment_data_amount, '.00', strlen($payment_data_amount) - 1) }}
-									</p>
-
-									<p>
-										{{ $payment_for }}
-									</p>
-
-                  <p>
-										<div class="badge badge-success">Paid</div>
-									</p>
-
-                  <p>
-										{{ \Carbon\Carbon::parse($application_record_data->created_at)->format('F d, Y h:m A') }}
-									</p>
-
-                  <p>
-										<u><a href="{{ $payment_data_receipt_url }}" target="_blank -098765">Click to view</a></u>
-									</p>
-								</div>
-							</div>
-						</div>
-						@else
-
-            <div class="col-lg-3 px-3 mx-auto mb-3">
-							<img
-								src="{{ asset('images/icons/info.png') }}"
-								alt="KIC brand"
-								class="img-fluid"
-							/>
-						</div>
-
-						<div>
-							<h5 class="text-muted text-center mb-4">
-								Payment Information Summary
-							</h5>
-
-							<hr />
-
-							<div class="d-flex justify-content-between pt-3">
-								<div class="bold-texts">
-									<p className="text-muted">
-										Application Record #
-									</p>
-
-									<p className="text-muted">Payment amount</p>
-
-									<p className="text-muted">Payment for</p>
-
-									<p className="text-muted">Payment status</p>
-								</div>
-
-								<div>
-									<p>
-										{{ $application_record_data->uuid }}
-									</p>
-
-                  
-									<p>
-										QAR {{ substr_replace($payment_data_amount, '.00', strlen($payment_data_amount) - 1) }}
-									</p>
-
-									<p>
-										{{ $payment_for }}
-									</p>
-
-                  <p>
-										<div class="badge badge-success">To Pay</div>
-									</p>
-								</div>
-							</div>
-						</div>
-
-						<div class="text-center mt-3">
-              <form
-                action="{{ route('payments.stripe.create', ['application_payment_record_uuid' => $application_payment_uuid] ) }}"
-                method="POST"
-              >
-                <script
-                  src="https://checkout.stripe.com/checkout.js"
-                  class="stripe-button"
-                  data-key="pk_test_51IbgXqHy36r0CCKEReFYBLrWhWpcD9Tb25KMZqK6UwbiD5Mty3yTWEf1avmEuPMd96ZHws0CXytrrkrm5Wm9rKuh00rbchm1Xw"
-                  data-amount="15000"
-                  data-name="Patrick Policarpio"
-                  data-description="Application Payment"
-                  data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                  data-locale="en"
-                  data-currency="QAR"
-                ></script>
-              </form>
-            </div>
-						@endif
-					</div>
-				</div>
-				@else
 				<div class="card">
 					<div class="card-body">
 						<div class="col-lg-3 px-3 mx-auto mb-5">
 							<img
-								src="{{ asset('images/icons/close.png') }}"
+								src="{{ asset('images/icons/check.png') }}"
 								alt="KIC brand"
 								class="img-fluid"
 							/>
@@ -288,11 +151,10 @@
 
             <div>
               <h5 class="text-muted text-center mb-4">
-								Payment Information Not Found
+                Payment Successful
 							</h5>
             </div>
 				</div>
-				@endif
 			</div>
 		</div>
 	</body>

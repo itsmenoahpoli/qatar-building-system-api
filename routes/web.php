@@ -20,7 +20,8 @@ Route::get('/', [PagesController::class, 'api_index'])->name('documentation.api.
 
 // Stripe payments
 Route::group(['prefix' => 'stripe-payments'], function() {
-  Route::get('/create-payment/{application_payment_uuid}', [PagesController::class, 'stripe_create_payment'])->name('payments.stripe.create-payment');
+  Route::get('/payment/{application_payment_uuid}', [PagesController::class, 'stripe_create_payment'])->name('payments.stripe.create-payment');
+  Route::get('/payment/status/success', [PagesController::class, 'stripe_success_payment'])->name('payments.stripe.success-payment');
 });
 
 

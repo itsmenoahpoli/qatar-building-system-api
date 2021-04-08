@@ -54,7 +54,7 @@ class StripePaymentsController extends Controller
         $application_payment_record->stripe_receipt_url = $payment_charge->receipt_url;
         $application_payment_record->save();
 
-        PaymentRecord::create([
+        $payment_record = PaymentRecord::create([
           'stripe_payment_id' => $payment_charge->id,
           'payment_object_json' => json_encode($payment_charge),
           'status' => $payment_charge->paid ? "paid" : "on-hold/failed",
@@ -65,10 +65,13 @@ class StripePaymentsController extends Controller
 
         DB::commit();
 
-        return response()->json($payment_charge, 201);
+        return view('payments.stripe.success-payment')->with([
+          'application_payment_record' => $application_payment_record,
+          'payment_record' => $payment_record
+        ]);
       } catch(Exception $e) {
         DB::rollback();
-        return response()->json($e->getMessage(), 500);
+        return view('payments.stripe.failed-payment');
       }
     }
 
