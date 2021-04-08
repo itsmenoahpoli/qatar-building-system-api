@@ -18,11 +18,17 @@ use App\Http\Controllers\Frontend\PagesController;
 
 Route::get('/', [PagesController::class, 'api_index'])->name('documentation.api.index');
 
+// Stripe payments
+Route::group(['prefix' => 'stripe-payments'], function() {
+  Route::get('/create-payment/{application_payment_uuid}', [PagesController::class, 'stripe_create_payment'])->name('payments.stripe.create-payment');
+});
+
 
 // Mails preview
-
 Route::group(['prefix' => 'mail-preview'], function() {
   Route::get('/otp', function() {
     return new App\Mail\Users\Otp(['otp_code' => '0FG2ZKA6', 'user_name' => 'Patrick Policarpio']);
   });
 });
+
+

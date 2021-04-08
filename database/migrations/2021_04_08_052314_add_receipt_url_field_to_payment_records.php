@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentLogsTable extends Migration
+class AddReceiptUrlFieldToPaymentRecords extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatePaymentLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_logs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('payment_records', function (Blueprint $table) {
+          $table->text('stripe_receipt_url')->nullable()->after('status');
         });
     }
 
@@ -26,6 +25,8 @@ class CreatePaymentLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_logs');
+        Schema::table('payment_records', function (Blueprint $table) {
+          $table->dropColumn(['stripe_receipt_url']);
+        });
     }
 }

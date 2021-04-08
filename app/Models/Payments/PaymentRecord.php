@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class PaymentRecord extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
 }

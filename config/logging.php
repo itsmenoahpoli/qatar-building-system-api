@@ -100,6 +100,13 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        /** Custom log file for STRIPE API */
+        'stripe_log' => [
+          'driver' => 'single',
+          'level' => 'info',
+          'path' => storage_path('logs/payments/stripe-log.log')
+        ]
     ],
 
 ];

@@ -39,4 +39,8 @@ class ApplicationRecord extends Model
     public function review_data() {
         return $this->hasOne('App\Models\Applications\ApplicationReviewData');
     }
+
+    public function payment() {
+      return $this->hasMany('App\Models\Applications\ApplicationRecordPayment');
+    }
 }

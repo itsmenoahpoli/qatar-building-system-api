@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Resources\ApplicationRecordsResource;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
+use App\Models\Applications\ApplicationRecordPayment;
 use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationPropertyData;
 use App\Models\Applications\ApplicationOwnerData;
@@ -22,7 +23,7 @@ class ApplicationRecordsController extends Controller
     private $relationships;
 
     public function __construct() {
-        $this->relationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data'];
+        $this->relationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payment'];
     }
 
     /**
@@ -131,6 +132,14 @@ class ApplicationRecordsController extends Controller
                 "building_permit_fees" => $request->application_review_data['building_permit_fees'], 
                 "status" => $request->application_review_data['status'], 
                 "others" => $request->application_review_data['others'], 
+            ]);
+
+            // Initiate Payment Record (with is_paid = false)
+            $application_payment_record = ApplicationRecordPayment::create([
+              'uuid' => 'p_'.Str::random(10),
+              'application_record_id' => $application_record->id,
+              'payment_for' => 'services-dp-50%',
+              'amount' => $request->application_others_data['services_fees'].'0'
             ]);
 
 

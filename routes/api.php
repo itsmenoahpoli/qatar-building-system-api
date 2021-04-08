@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 // Modules
 use App\Http\Controllers\API\AuthenticationController;
 use App\Http\Controllers\API\OtpController;
+use App\Http\Controllers\API\StripePaymentsController;
 use App\Http\Controllers\API\ApplicationRecordsController;
 
 /*
@@ -19,6 +20,7 @@ use App\Http\Controllers\API\ApplicationRecordsController;
 |
 */
 
+// User Auth
 Route::group(['prefix' => 'auth'], function() {
     Route::group(['prefix' => 'user'], function() {
         Route::post('/login', [AuthenticationController::class, 'login'])->name('auth.user.login');
@@ -32,6 +34,15 @@ Route::group(['prefix' => 'auth'], function() {
     });
 });
 
+// Payments
+Route::group(['prefix' => 'payments'], function() {
+  Route::group(['prefix' => 'stripe'], function() {
+    Route::get('/get-payments', [StripePaymentsController::class, 'get_all_payments'])->name('payments.stripe.index');
+    Route::get('/get-payment/{payment_charge_id}', [StripePaymentsController::class, 'get_payment'])->name('payments.stripe.show');
+    Route::post('/create-payment/{application_payment_record_uuid}', [StripePaymentsController::class, 'create_payment'])->name('payments.stripe.create');
+  });
+});
 
+// Modules
 Route::apiResource('application-records', ApplicationRecordsController::class);
-// Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
+Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');

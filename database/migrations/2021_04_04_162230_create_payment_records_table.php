@@ -15,6 +15,9 @@ class CreatePaymentRecordsTable extends Migration
     {
         Schema::create('payment_records', function (Blueprint $table) {
             $table->id();
+            $table->string('stripe_payment_id', 100);
+            $table->longText('payment_object_json');
+            $table->string('status', 50);
             $table->timestamps();
         });
     }
