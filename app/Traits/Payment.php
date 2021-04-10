@@ -13,8 +13,8 @@ trait Payment {
         return 'Service Fees Completion (100%)';
         break;
 
-      case 'business-permit-fees':
-        return 'Business Permit Fees';
+      case 'buidling-permit-fees':
+        return 'Building Permit Fees';
         break;
 
       default:

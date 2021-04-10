@@ -11,7 +11,7 @@ class ApplicationRecord extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-
+    
     public function property_data() {
         return $this->hasOne('App\Models\Applications\ApplicationPropertyData');
     }

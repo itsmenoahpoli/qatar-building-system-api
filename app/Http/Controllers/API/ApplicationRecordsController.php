@@ -61,7 +61,6 @@ class ApplicationRecordsController extends Controller
      */
     public function store(ApplicationStoreRequest $request)
     {
-        // TODO: Generate PDF for archiving and send carbon copy (PDF format) to superadmin via email
         try {
             // Start transaction
             DB::beginTransaction();
