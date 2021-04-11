@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAppModelsTrailsTrailAuditTrailsTable extends Migration
+class CreateApplicationRecordTrailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateAppModelsTrailsTrailAuditTrailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('app_models_trails_trail_audit_trails', function (Blueprint $table) {
+        Schema::create('application_record_trails', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('application_record_id')
+                  ->constrained('application_records');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateAppModelsTrailsTrailAuditTrailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_models_trails_trail_audit_trails');
+        Schema::dropIfExists('application_record_trails');
     }
 }

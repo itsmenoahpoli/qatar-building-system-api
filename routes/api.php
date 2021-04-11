@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthenticationController;
 use App\Http\Controllers\API\OtpController;
 use App\Http\Controllers\API\StripePaymentsController;
+use App\Http\Controllers\API\EngineerCategoriesController;
 use App\Http\Controllers\API\ApplicationRecordsController;
 
 /*
@@ -44,5 +45,7 @@ Route::group(['prefix' => 'payments'], function() {
 });
 
 // Modules
+Route::apiResource('engineer-categories', EngineerCategoriesController::class);
+
 Route::apiResource('application-records', ApplicationRecordsController::class);
 Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');

@@ -11,7 +11,11 @@ class ApplicationRecord extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    
+
+    public function applicant_user() {
+      return $this->belongsTo('App\Models\User', 'user_id');
+    }
+
     public function property_data() {
         return $this->hasOne('App\Models\Applications\ApplicationPropertyData');
     }
@@ -37,10 +41,14 @@ class ApplicationRecord extends Model
     }
 
     public function review_data() {
-        return $this->hasOne('App\Models\Applications\ApplicationReviewData');
+        return $this->hasMany('App\Models\Applications\ApplicationReviewData');
     }
 
-    public function payment() {
+    public function payments() {
       return $this->hasMany('App\Models\Applications\ApplicationRecordPayment');
+    }
+
+    public function trail() {
+      return $this->hasMany('App\Models\Applications\ApplicationRecordTrail');
     }
 }

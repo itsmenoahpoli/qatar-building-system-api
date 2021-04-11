@@ -10,11 +10,13 @@ Steps to run the project
 
 > php artisan migrate
 
+> php artisan db:seed
+
 > php artisan serve
 
 #### TODO
 
 -   [x] Initial API
--   [ ] Authentication using Laravel Passport
--   [ ] Database seeder (generate initial dummy data for content)
+-   [x] Authentication using Laravel Passport
+-   [x] Database seeder (generate initial dummy data for content)
 -   [ ] Files Management API

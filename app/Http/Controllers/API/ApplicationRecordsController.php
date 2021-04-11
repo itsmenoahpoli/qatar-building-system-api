@@ -23,7 +23,7 @@ class ApplicationRecordsController extends Controller
     private $relationships;
 
     public function __construct() {
-        $this->relationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payment'];
+        $this->relationships = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments'];
     }
 
     /**
@@ -34,8 +34,31 @@ class ApplicationRecordsController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
+        $status = $request->get('status');
+        $payment_status = $request->get('payment_status');
+        $engineer_category = $request->get('engineer_category');
 
-        $applications = ApplicationRecord::with($this->relationships)->latest()->get();
+        // $applications = ApplicationRecord::with($this->relationships)->latest()->get();
+
+
+        $applications = ApplicationRecord::with($this->relationships)
+        ->whereHas('applicant_user', function ($q) use ($search) {
+          return $q->when(!empty($search), function ($y) use ($search) {
+            $y->where('first_name', 'LIKE', '%'.$search.'%')
+              ->orWhere('middle_name', 'LIKE', '%'.$search.'%')
+              ->orWhere('last_name', 'LIKE', '%'.$search.'%')
+              ->orWhere('email', 'LIKE', '%'.$search.'%')
+              ->orWhere('status', 'LIKE', '%'.$search.'%');
+          });
+        })
+        ->when(!empty($status), function ($q) use ($status) {
+          return $q->where('status', $status);
+        })
+        ->when(!empty($payment_status), function ($q) use ($payment_status) {
+          return $q->where('payment_status', $payment_status);
+        })
+        ->latest()
+        ->get();
 
         return $applications;
     }
@@ -66,7 +89,8 @@ class ApplicationRecordsController extends Controller
             DB::beginTransaction();
 
             $application_record = ApplicationRecord::create([
-                'uuid' => 'application_'.Str::random(8)
+                'uuid' => 'application_'.Str::random(8),
+                'user_id' => $request->application_applicant_data['user_id']
             ]);
             
             // Store Applicant Data

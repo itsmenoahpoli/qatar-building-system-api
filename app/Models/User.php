@@ -42,6 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function application_records() {
+      return $this->hasMany('App\Models\Applications\ApplicationRecord');
+    }
+
     public function auth_sessions() {
         return $this->hasMany('App\Models\LogUserSession');
     }
