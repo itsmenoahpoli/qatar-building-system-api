@@ -37,5 +37,17 @@ class UsersSeeder extends Seeder
       //     'is_enabled' => true,
       //     'is_verified' => true
       // ]);
+      
+      // Aldrin Alemania
+      User::create([
+        'first_name' => 'Aldrin',
+        'middle_name' => '',
+        'last_name' => 'Alemania',
+        'email' => 'Aldrin_Alemania42@yahoo.com',
+        'password' => bcrypt('011898Policarpio'),
+        'user_role_id' => 1,
+        'is_enabled' => true,
+        'is_verified' => true
+    ]);
     }
 }
