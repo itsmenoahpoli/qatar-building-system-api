@@ -33,7 +33,7 @@ class ApplicationRecordsController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
+        $search = $request->get('q');
         $status = $request->get('status');
         $payment_status = $request->get('payment_status');
         $engineer_category = $request->get('engineer_category');
@@ -174,7 +174,10 @@ class ApplicationRecordsController extends Controller
 
             $application_data_overview = ApplicationRecord::with($this->relationships)->find($application_record->id);
 
-            return response()->json($application_data_overview, 201);
+            return response()->json([
+              'services_dp_50%_payment_url' => 'http://localhost:8000/stripe-payments/payment/'.$application_payment_record->uuid,
+              'application_data' => $application_data_overview
+            ], 201);
         } catch(Exception $e) {
             DB::rollback();
             return response()->json('Failed', 500);
@@ -196,18 +199,6 @@ class ApplicationRecordsController extends Controller
         $application_record = ApplicationRecord::with($this->relationships)->where('uuid', '=', $uuid)->get();
 
         return count($application_record) === 1 ? response()->json($application_record->first(), 200) : response()->json('Not Found', 404);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**

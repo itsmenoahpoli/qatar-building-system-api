@@ -15,7 +15,7 @@ class PagesController extends Controller
     private $applicationRecordRelationships;
 
     public function __construct() {
-      $this->applicationRecordRelationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payment'];
+      $this->applicationRecordRelationships = ['property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments'];
     }
 
     /**
