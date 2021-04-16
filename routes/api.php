@@ -9,6 +9,7 @@ use App\Http\Controllers\API\OtpController;
 use App\Http\Controllers\API\StripePaymentsController;
 use App\Http\Controllers\API\EngineerCategoriesController;
 use App\Http\Controllers\API\ApplicationRecordsController;
+use App\Http\Controllers\API\InvoicesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +50,7 @@ Route::apiResource('engineer-categories', EngineerCategoriesController::class);
 
 Route::apiResource('application-records', ApplicationRecordsController::class);
 Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
+
+
+Route::apiResource('invoices', InvoicesController::class);
+Route::get('/invoices/get-by-uuid/{uuid}', [InvoicesController::class, 'show_by_uuid'])->name('invoices.show-by-uuid');

@@ -175,7 +175,7 @@ class ApplicationRecordsController extends Controller
             $application_data_overview = ApplicationRecord::with($this->relationships)->find($application_record->id);
 
             return response()->json([
-              'services_dp_50%_payment_url' => 'http://localhost:8000/stripe-payments/payment/'.$application_payment_record->uuid,
+              'services_dp_50%_payment_url' => env('APP_URL').':8000/stripe-payments/payment/'.$application_payment_record->uuid,
               'application_data' => $application_data_overview
             ], 201);
         } catch(Exception $e) {
