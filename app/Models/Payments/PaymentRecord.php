@@ -10,4 +10,8 @@ class PaymentRecord extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function application_record_payment() {
+      return $this->hasOne('App\Models\Applications\ApplicationRecordPayment');
+    }
 }

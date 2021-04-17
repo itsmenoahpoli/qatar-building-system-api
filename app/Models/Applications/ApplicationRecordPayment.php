@@ -14,4 +14,8 @@ class ApplicationRecordPayment extends Model
     public function application_record() {
       return $this->belongsTo('App\Models\Applications\ApplicationRecord');
     }
+
+    public function payment_record() {
+      return $this->belongsTo('App\Models\Payments\PaymentRecord');
+    }
 }

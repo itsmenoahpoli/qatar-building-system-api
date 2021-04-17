@@ -243,7 +243,7 @@
                   src="https://checkout.stripe.com/checkout.js"
                   class="stripe-button"
                   data-key="pk_test_51IbgXqHy36r0CCKEReFYBLrWhWpcD9Tb25KMZqK6UwbiD5Mty3yTWEf1avmEuPMd96ZHws0CXytrrkrm5Wm9rKuh00rbchm1Xw"
-                  data-amount="15000"
+                  data-amount="{{ $payment_data_amount.'0' }}"
                   data-name="Patrick Policarpio"
                   data-description="Application Payment"
                   data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

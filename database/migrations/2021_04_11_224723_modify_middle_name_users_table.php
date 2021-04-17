@@ -15,7 +15,7 @@ class ModifyMiddleNameUsersTable extends Migration
     {
       Schema::table('users', function (Blueprint $table) {
         $table->string('middle_name', 100)->nullable()->change();
-    });
+      });
     }
 
     /**

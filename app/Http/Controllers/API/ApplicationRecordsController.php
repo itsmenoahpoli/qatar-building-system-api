@@ -147,16 +147,6 @@ class ApplicationRecordsController extends Controller
                 "services_fees" => $request->application_others_data['services_fees'],
             ]);
 
-            // Store Review Data
-            $application_review_data = ApplicationReviewData::create([
-                "application_record_id" => $application_record->id,
-                "engineer_category" => $request->application_review_data['engineer_category'], 
-                "engineer_id" => $request->application_review_data['engineer_id'], 
-                "building_permit_fees" => $request->application_review_data['building_permit_fees'], 
-                "status" => $request->application_review_data['status'], 
-                "others" => $request->application_review_data['others'], 
-            ]);
-
             // Initiate Payment Record (with is_paid = false)
             $application_payment_record = ApplicationRecordPayment::create([
               'uuid' => 'p_'.Str::random(10),
@@ -164,10 +154,6 @@ class ApplicationRecordsController extends Controller
               'payment_for' => 'services-dp-50%',
               'amount' => $request->application_others_data['services_fees'].'0'
             ]);
-
-
-            // Store Attachement Data (Images)
-            // $application_property_data = ApplicationAttachementData::create($request->application_property_data);
 
             DB::commit();
             // End transaction
@@ -264,6 +250,39 @@ class ApplicationRecordsController extends Controller
     {
         
     }    
+
+    /**
+     * Add application review.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function add_review(Request $request)
+    {
+        
+    }
+
+    /**
+     * Update application review.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_review(Request $request)
+    {
+        
+    }
+
+    /**
+     * Delete application review.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete_review(Request $request)
+    {
+        
+    }
 
     public function __deconstruct() {
         $this->relationships = NULL;

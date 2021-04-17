@@ -11,7 +11,7 @@ class InvoicesController extends Controller
     private $relationships;
 
     public function __construct() {
-        $this->relationships = ['application_record'];
+        $this->relationships = ['application_record', 'payment_record'];
     }
 
     /**
@@ -21,7 +21,8 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        $invoices = ApplicationRecordPayment::with($this->relationships)->where('is_paid', true)->get();
+        $invoices = ApplicationRecordPayment::with($this->relationships)
+                    ->latest()->get();
 
         return $invoices;
     }
@@ -35,21 +36,30 @@ class InvoicesController extends Controller
     public function show($uuid)
     {
         $invoice = ApplicationRecordPayment::with($this->relationships)->where([
-          'uuid' => $uuid,
-          'is_paid' =>  true
-        ])->get();
+          'uuid' => $uuid
+        ])->get()->first();
 
-        return count($invoice) === 1 ? response()->json($invoice->first(), 200) : response()->json('Not Found', 404);
+
+        if(!is_null($invoice)) {
+          $invoice_data = [
+            'invoice' => $invoice,
+            'invoice_recipient' => $invoice->application_record->applicant_user,
+            'application_record' => $invoice->application_record
+          ];
+          
+          return response()->json($invoice_data, 200);
+        }
+        
+        return response()->json('Not Found', 404);
     }
 
     public function show_by_uuid($uuid)
     {
         $$invoice = ApplicationRecordPayment::with($this->relationships)->where([
-          'uuid' => $uuid,
-          'is_paid' =>  true
-        ])->get();
+          'uuid' => $uuid
+        ])->get()->first();
 
-        return count($invoice) === 1 ? response()->json($invoice->first(), 200) : response()->json('Not Found', 404);
+        return response()->json($invoice_data, 200);
     }
 
     public function __deconstruct() {

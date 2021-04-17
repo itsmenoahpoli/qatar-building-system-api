@@ -43,14 +43,10 @@ class StripePaymentsController extends Controller
 
         $payment_charge = $this->stripe_client->charges->create([
           'amount' => $application_payment_record->amount.'0',
-          'currency' => 'PHP',
+          'currency' => 'QAR',
           'description' => 'Application Record Registration Payment',
           'source' => $token
         ]);
-
-        $application_payment_record->is_paid = $payment_charge->paid;
-        $application_payment_record->stripe_receipt_url = $payment_charge->receipt_url;
-        $application_payment_record->save();
 
         $payment_record = PaymentRecord::create([
           'stripe_payment_id' => $payment_charge->id,
@@ -58,6 +54,11 @@ class StripePaymentsController extends Controller
           'status' => $payment_charge->paid ? "paid" : "on-hold/failed",
           'stripe_receipt_url' => $payment_charge->receipt_url
         ]);
+
+        $application_payment_record->is_paid = $payment_charge->paid;
+        $application_payment_record->stripe_receipt_url = $payment_charge->receipt_url;
+        $application_payment_record->payment_record_id = $payment_record->id;
+        $application_payment_record->save();
 
         Log::channel('stripe_log')->info($payment_charge);
 
