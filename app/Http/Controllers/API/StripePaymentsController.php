@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\StripePayments\CreatePaymentRequest;
+use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationRecordPayment;
 use App\Models\Payments\PaymentRecord;
 use Log;
@@ -59,6 +60,10 @@ class StripePaymentsController extends Controller
         $application_payment_record->stripe_receipt_url = $payment_charge->receipt_url;
         $application_payment_record->payment_record_id = $payment_record->id;
         $application_payment_record->save();
+
+        $application_record = ApplicationRecord::findOrFail($application_payment_record->application_record_id);
+        $application_record->payment_status = 'services-dp-50%';
+        $application_record->save();
 
         Log::channel('stripe_log')->info($payment_charge);
 
