@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Resources\ApplicationRecordsResource;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
-use App\Http\Requests\Applications\CreatePayment;
+use App\Http\Requests\Applications\CreateApplicationReviewRequest;
+use App\Http\Requests\Applications\CreatePaymentRequest;
 use App\Models\Applications\ApplicationRecordPayment;
 use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationPropertyData;
@@ -259,10 +260,20 @@ class ApplicationRecordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function add_review(Request $request)
+    public function add_review(CreateApplicationReviewRequest $request)
     {
         try {
-          ApplicationReviewData::create([]);
+          $application_record = ApplicationRecord::with('review_data')->findOrFail($request->application_record_id);
+
+          foreach($application_record->review_data as $review) {
+            if($review->engineer_category === $request->engineer_category) {
+              return response()->json('Reviewed already by an engineer with same engineer category', 409);
+            }
+          }
+          
+          $application_review_data = ApplicationReviewData::create($request->all());
+
+          return response()->json($application_review_data, 201);
         } catch(Exception $e) {
           return response()->json($e->getMessage(), 500);
         }
@@ -290,7 +301,7 @@ class ApplicationRecordsController extends Controller
         
     }
 
-    public function add_application_payment(CreatePayment $request) {
+    public function add_application_payment(CreatePaymentRequest $request) {
       try {
         $application_payment_record = ApplicationRecordPayment::create([
           'uuid' => 'p_'.Str::random(10),

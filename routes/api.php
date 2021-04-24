@@ -54,6 +54,7 @@ Route::apiResource('engineer-categories', EngineerCategoriesController::class);
 
 Route::apiResource('application-records', ApplicationRecordsController::class);
 Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
+Route::post('/application-records/add-review', [ApplicationRecordsController::class, 'add_review'])->name('application-records.add-review');
 
 
 Route::apiResource('invoices', InvoicesController::class);
