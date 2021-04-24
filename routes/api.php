@@ -43,6 +43,10 @@ Route::group(['prefix' => 'payments'], function() {
     Route::get('/get-payment/{payment_charge_id}', [StripePaymentsController::class, 'get_payment'])->name('payments.stripe.show');
     Route::post('/create-payment/{application_payment_record_uuid}', [StripePaymentsController::class, 'create_payment'])->name('payments.stripe.create');
   });
+
+  Route::group(['prefix' => 'application-payments'], function() {
+    Route::post('/create-payment', [ApplicationRecordsController::class, 'add_application_payment'])->name('payments.application.create');
+  });
 });
 
 // Modules

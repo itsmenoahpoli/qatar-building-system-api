@@ -47,5 +47,11 @@ class UserRolesSeeder extends Seeder
             'name' => 'client',
             'title' => 'Client'
         ]);
+
+        // (Engineer)
+        UserRole::create([
+          'name' => 'engineer',
+          'title' => 'Engineer'
+      ]);
     }
 }

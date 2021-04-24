@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Resources\ApplicationRecordsResource;
 use App\Http\Requests\Applications\ApplicationStoreRequest;
+use App\Http\Requests\Applications\CreatePayment;
 use App\Models\Applications\ApplicationRecordPayment;
 use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationPropertyData;
@@ -282,6 +283,28 @@ class ApplicationRecordsController extends Controller
     public function delete_review(Request $request)
     {
         
+    }
+
+    public function add_application_payment(CreatePayment $request) {
+      try {
+        $application_payment_record = ApplicationRecordPayment::create([
+          'uuid' => 'p_'.Str::random(10),
+          'application_record_id' => $request->application_id,
+          'payment_for' => $request->payment_for,
+          'amount' => $request->amount.'0'
+        ]);
+
+        $application_payments_updated_list = ApplicationRecordPayment::where('application_record_id', $request->application_id)->get();
+        
+        $application_payments_data = [
+          'newly_created_payment' => $application_payment_record,
+          'application_payments_list' => $application_payments_updated_list
+        ];
+
+        return response()->json($application_payments_data, 201);
+      } catch(Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
     }
 
     public function __deconstruct() {

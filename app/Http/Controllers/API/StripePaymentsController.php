@@ -62,7 +62,7 @@ class StripePaymentsController extends Controller
         $application_payment_record->save();
 
         $application_record = ApplicationRecord::findOrFail($application_payment_record->application_record_id);
-        $application_record->payment_status = 'services-dp-50%';
+        $application_record->payment_status = $application_payment_record->payment_for;
         $application_record->save();
 
         Log::channel('stripe_log')->info($payment_charge);
