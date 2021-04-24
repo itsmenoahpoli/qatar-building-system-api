@@ -62,15 +62,6 @@ class ApplicationStoreRequest extends FormRequest
             'application_others_data.required_works' => 'required',
             'application_others_data.others' => 'required',
             'application_others_data.services_fees' => 'required',
-
-            // Review Data
-            'application_review_data.engineer_category' => 'required',
-            'application_review_data.engineer_id' => 'required',
-            'application_review_data.building_permit_fees' => 'required',
-            'application_review_data.status' => 'required',
-            'application_review_data.others' => 'required',
-
-            // Attachement Data (Images)
         ];
     }
 }

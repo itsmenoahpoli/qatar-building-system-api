@@ -26,7 +26,7 @@ class CreatePayment extends FormRequest
         return [
             'application_id' => 'required',
             'payment_for' => 'required',
-            'amount'
+            'amount' => 'required'
         ];
     }
 }

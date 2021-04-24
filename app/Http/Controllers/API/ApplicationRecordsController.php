@@ -261,7 +261,11 @@ class ApplicationRecordsController extends Controller
      */
     public function add_review(Request $request)
     {
-        
+        try {
+          ApplicationReviewData::create([]);
+        } catch(Exception $e) {
+          return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
