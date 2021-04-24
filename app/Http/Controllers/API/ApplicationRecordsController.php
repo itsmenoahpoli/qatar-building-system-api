@@ -45,7 +45,8 @@ class ApplicationRecordsController extends Controller
         $applications = ApplicationRecord::with($this->relationships)
         ->whereHas('applicant_user', function ($q) use ($search) {
           return $q->when(!empty($search), function ($y) use ($search) {
-            $y->where('first_name', 'LIKE', '%'.$search.'%')
+            $y->where('uuid', 'LIKE', '%'.$search.'%')
+              ->orWhere('first_name', 'LIKE', '%'.$search.'%')
               ->orWhere('middle_name', 'LIKE', '%'.$search.'%')
               ->orWhere('last_name', 'LIKE', '%'.$search.'%')
               ->orWhere('email', 'LIKE', '%'.$search.'%')
@@ -296,10 +297,14 @@ class ApplicationRecordsController extends Controller
 
         $application_payments_updated_list = ApplicationRecordPayment::where('application_record_id', $request->application_id)->get();
         
+        $payment_url = env('APP_URL').':8000/stripe-payments/payment/'.$application_payment_record->uuid;
+        
         $application_payments_data = [
+          'payment_url' => $payment_url,
           'newly_created_payment' => $application_payment_record,
           'application_payments_list' => $application_payments_updated_list
         ];
+
 
         return response()->json($application_payments_data, 201);
       } catch(Exception $e) {
