@@ -244,7 +244,7 @@
                   class="stripe-button"
                   data-key="pk_test_51IkR3KJ5NKPKu9n1Y5sWKxPNDcSc5UenSTU7ETvTYlKsIGg8uYbvaLp1mrbE4H15c2MMOzJiAQ9duLAUoNIpo8dY00qng7ZkvJ"
                   data-amount="{{ $payment_data_amount.'0' }}"
-                  data-name="Patrick Policarpio"
+                  data-name="{{ $payment_for }}"
                   data-description="Application Payment"
                   data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                   data-locale="en"
