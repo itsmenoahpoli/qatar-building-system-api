@@ -8,6 +8,7 @@ use App\Http\Requests\StripePayments\CreatePaymentRequest;
 use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationRecordPayment;
 use App\Models\Payments\PaymentRecord;
+use App\Traits\AuditTrail;
 use Log;
 use DB;
 
@@ -64,6 +65,11 @@ class StripePaymentsController extends Controller
         $application_record = ApplicationRecord::findOrFail($application_payment_record->application_record_id);
         $application_record->payment_status = $application_payment_record->payment_for;
         $application_record->save();
+
+        $this->application_trail([
+          'application_record_id' => $application_record->id,
+          'content' => 'Payment paid for `'.$application_payment_record->payment_for.'`'
+        ]);
 
         Log::channel('stripe_log')->info($payment_charge);
 
