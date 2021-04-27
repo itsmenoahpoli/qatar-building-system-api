@@ -20,11 +20,12 @@ use App\Models\Applications\ApplicationReviewData;
 use App\Models\Applications\ApplicationAttachementData;
 use App\Models\User;
 use App\Traits\AuditTrail;
+use App\Traits\Mail;
 use DB;
 
 class ApplicationRecordsController extends Controller
 {
-    use AuditTrail;
+    use AuditTrail, Mail;
 
     private $relationships;
 
@@ -162,6 +163,13 @@ class ApplicationRecordsController extends Controller
               'amount' => $request->application_others_data['services_fees'].'0'
             ]);
 
+            $user = User::findOrFail($request->application_applicant_data['user_id']);
+
+            $this->sendPaymentUrlMail($user->email, [
+              'user_name' => $user->first_name.' '.$user->last_name,
+              'payment_link' => config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid
+            ]);
+
             $this->application_trail([
               'application_record_id' => $application_record->id,
               'content' => 'Application uploaded to E-BPMS'
@@ -178,7 +186,7 @@ class ApplicationRecordsController extends Controller
             $application_data_overview = ApplicationRecord::with($this->relationships)->find($application_record->id);
 
             return response()->json([
-              'services_dp_50%_payment_url' => env('APP_URL').':8000/stripe-payments/payment/'.$application_payment_record->uuid,
+              'services_dp_50%_payment_url' => config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid,
               'application_data' => $application_data_overview
             ], 201);
         } catch(Exception $e) {
@@ -357,7 +365,7 @@ class ApplicationRecordsController extends Controller
 
         $application_payments_updated_list = ApplicationRecordPayment::where('application_record_id', $request->application_id)->get();
         
-        $payment_url = env('APP_URL').':8000/stripe-payments/payment/'.$application_payment_record->uuid;
+        $payment_url = config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid;
         
         $application_payments_data = [
           'payment_url' => $payment_url,

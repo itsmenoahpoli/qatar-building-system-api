@@ -12,5 +12,10 @@ return [
   'keys' => [
     'STRIPE_KEY' => env('STRIPE_KEY', $test_stripe_key_KIC),
     'STRIPE_SECRET_KEY' => env('STRIPE_SECRET_KEY', $test_stripe_secret_key_KIC)
+  ],
+
+  'payment_urls' => [
+    'LOCAL' => 'http://localhost:8000',
+    'PRODUCTION' => 'https://app.e-bpms.site/public'
   ]
 ];

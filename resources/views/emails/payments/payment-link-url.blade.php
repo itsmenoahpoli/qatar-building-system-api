@@ -1,15 +1,13 @@
 @component('mail::message') Hi, <b>{{ $user_name }}</b>
 
-### Below is your one-time-passcode
+### Please click or follow the URL below to proceed to your payment
 
 <br />
 
-@if($otp_type === "verify")
-<small> Your account verification OTP will expire at {{ $expires_at }} </small>
-@else
-<small> Your login verification OTP will expire at {{ $expires_at }} </small>
-@endif @component('mail::panel')
-{{ $otp_code }}
+<small>Your payment link</small>
+@component('mail::panel')
+<a href="{{ $payment_link }}" target="_blank">{{ $payment_link }}</a>
+
 @endcomponent
 
 <small>
