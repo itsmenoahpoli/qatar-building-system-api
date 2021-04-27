@@ -14,6 +14,8 @@ use DB;
 
 class StripePaymentsController extends Controller
 {
+    use AuditTrail;
+    
     private $stripe_client;
     private $stripe_secret_key;
 
