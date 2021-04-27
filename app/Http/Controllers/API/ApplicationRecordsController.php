@@ -18,14 +18,18 @@ use App\Models\Applications\ApplicationProjectData;
 use App\Models\Applications\ApplicationOthersData;
 use App\Models\Applications\ApplicationReviewData;
 use App\Models\Applications\ApplicationAttachementData;
+use App\Models\User;
+use App\Traits\AuditTrail;
 use DB;
 
 class ApplicationRecordsController extends Controller
 {
+    use AuditTrail;
+
     private $relationships;
 
     public function __construct() {
-        $this->relationships = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments'];
+        $this->relationships = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments', 'trail'];
     }
 
     /**
@@ -158,6 +162,16 @@ class ApplicationRecordsController extends Controller
               'amount' => $request->application_others_data['services_fees'].'0'
             ]);
 
+            $this->application_trail([
+              'application_record_id' => $application_record->id,
+              'content' => 'Application uploaded to E-BPMS'
+            ]);
+
+            $this->application_trail([
+              'application_record_id' => $application_record->id,
+              'content' => 'Payment created for `services-dp-50%`'
+            ]);
+
             DB::commit();
             // End transaction
 
@@ -255,6 +269,17 @@ class ApplicationRecordsController extends Controller
     }    
 
     /**
+     * Update application status.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_status(Request $request)
+    {
+        
+    }
+
+    /**
      * Add application review.
      *
      * @param  int  $id
@@ -270,8 +295,19 @@ class ApplicationRecordsController extends Controller
               return response()->json('Reviewed already by an engineer with same engineer category', 409);
             }
           }
+
+          DB::beginTransaction();
           
           $application_review_data = ApplicationReviewData::create($request->all());
+
+          $user = User::findOrFail($request->user_id);
+
+          $this->application_trail([
+            'application_record_id' => $application_record->id,
+            'content' => 'Review added by engineer: '.$user->first_name.' '.$user->last_name
+          ]);
+
+          DB::commit();
 
           return response()->json($application_review_data, 201);
         } catch(Exception $e) {
@@ -303,12 +339,21 @@ class ApplicationRecordsController extends Controller
 
     public function add_application_payment(CreatePaymentRequest $request) {
       try {
+        DB::beginTransaction();
+
         $application_payment_record = ApplicationRecordPayment::create([
           'uuid' => 'p_'.Str::random(10),
           'application_record_id' => $request->application_id,
           'payment_for' => $request->payment_for,
           'amount' => $request->amount.'0'
         ]);
+
+        $this->application_trail([
+          'application_record_id' => $request->application_id,
+          'content' => 'Payment created for `'.$request->payment_for.'`'
+        ]);
+
+        DB::commit();
 
         $application_payments_updated_list = ApplicationRecordPayment::where('application_record_id', $request->application_id)->get();
         
