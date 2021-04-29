@@ -21,12 +21,12 @@ use App\Models\Applications\ApplicationAttachementData;
 use App\Models\User;
 use App\Traits\AuditTrail;
 use App\Traits\Mail;
-use App\Traits\FileUpload;
+use App\Traits\FileUploads;
 use DB;
 
 class ApplicationRecordsController extends Controller
 {
-    use AuditTrail, Mail, FileUpload;
+    use AuditTrail, Mail, FileUploads;
 
     private $relationships;
 
