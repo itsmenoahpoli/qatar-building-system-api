@@ -164,7 +164,7 @@ class ApplicationRecordsController extends Controller
 
             $user = User::findOrFail($request->application_applicant_data['user_id']);
 
-            $this->sendPaymentUrlMail($user->email, [
+            $this->send_payment_url_to_client($user->email, [
               'user_name' => $user->first_name.' '.$user->last_name,
               'payment_link' => config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid
             ]);
