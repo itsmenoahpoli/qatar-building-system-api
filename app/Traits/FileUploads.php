@@ -1,7 +1,7 @@
 <?php
 namespace App\Traits;
 
-trait FileUpload {
+trait FileUploads {
   public function upload_application_attachement($file) {
     try {
       return 'File uploaded';
