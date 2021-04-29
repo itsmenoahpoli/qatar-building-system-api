@@ -21,11 +21,12 @@ use App\Models\Applications\ApplicationAttachementData;
 use App\Models\User;
 use App\Traits\AuditTrail;
 use App\Traits\Mail;
+use App\Traits\FileUpload;
 use DB;
 
 class ApplicationRecordsController extends Controller
 {
-    use AuditTrail, Mail;
+    use AuditTrail, Mail, FileUpload;
 
     private $relationships;
 
@@ -44,8 +45,6 @@ class ApplicationRecordsController extends Controller
         $status = $request->get('status');
         $payment_status = $request->get('payment_status');
         $engineer_category = $request->get('engineer_category');
-
-        // $applications = ApplicationRecord::with($this->relationships)->latest()->get();
 
 
         $applications = ApplicationRecord::with($this->relationships)

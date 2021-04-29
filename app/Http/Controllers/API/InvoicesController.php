@@ -53,13 +53,30 @@ class InvoicesController extends Controller
         return response()->json('Not Found', 404);
     }
 
+    /**
+     * Display the specified resource by uuid.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show_by_uuid($uuid)
     {
-        $$invoice = ApplicationRecordPayment::with($this->relationships)->where([
+        $invoice = ApplicationRecordPayment::with($this->relationships)->where([
           'uuid' => $uuid
         ])->get()->first();
 
         return response()->json($invoice_data, 200);
+    }
+
+    /**
+     * Send invoice to client
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function send_invoice_to_client(Request $request) 
+    {
+
     }
 
     public function __deconstruct() {
