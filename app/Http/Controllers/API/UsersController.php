@@ -4,10 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 
 class UsersController extends Controller
 {
+    private $relationships;
+
+    public function __construct() {
+      $this->relationships = ['application_records'];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +22,18 @@ class UsersController extends Controller
     public function index()
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource (Client Accounts).
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index_client_accounts(Request $request)
+    {
+        $users = User::with($this->relationships)->where('user_role_id', 6)->latest()->get();
+
+        return $users;
     }
 
     /**
@@ -47,7 +65,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        return 1;
     }
 
     /**
@@ -71,5 +89,9 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function __deconstruct() {
+      $this->relationships = NULL;
     }
 }

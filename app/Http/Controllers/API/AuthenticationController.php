@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
 use App\Http\Controllers\API\OtpController;
+use App\Models\User;
 use App\Models\UserRole;
 use App\Traits\Logging;
 use App\Traits\AuditTrail;
@@ -95,7 +96,21 @@ class AuthenticationController extends Controller
     }
 
     public function register(RegisterRequest $request) {
-        
+        try { 
+          User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'is_enabled' => true,
+            'is_verified' => true,
+            'user_role_id' => 6 // Default user role id for client accounts
+          ]);
+          
+          return response()->json('Account created', 201);
+        } catch(Exeption $e) {
+          return response()->json($e->getMessage(), 500);
+        }
     }
 
     public function get_user_role(int $role_id = 0) {

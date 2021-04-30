@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Modules
 use App\Http\Controllers\API\AuthenticationController;
+use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\OtpController;
 use App\Http\Controllers\API\StripePaymentsController;
 use App\Http\Controllers\API\EngineerCategoriesController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\API\InvoicesController;
 Route::group(['prefix' => 'auth'], function() {
     Route::group(['prefix' => 'user'], function() {
         Route::post('/login', [AuthenticationController::class, 'login'])->name('auth.user.login');
+        Route::post('/register', [AuthenticationController::class, 'register'])->name('auth.user.register');
         Route::post('/request-otp/{email}', [OtpController::class, 'request_otp'])->name('auth.user.request-otp');
         Route::post('/verify-otp', [OtpController::class, 'verify_otp'])->name('auth.user.verify-otp');
 
@@ -50,12 +52,19 @@ Route::group(['prefix' => 'payments'], function() {
 });
 
 // Modules
+
+// Users
+Route::apiResource('users', UsersController::class);
+Route::get('/client-accounts', [UsersController::class, 'index_client_accounts'])->name('users.client-accounts');
+
+// Engineers
 Route::apiResource('engineer-categories', EngineerCategoriesController::class);
 
+// Application Records
 Route::apiResource('application-records', ApplicationRecordsController::class);
 Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
 Route::post('/application-records/add-review', [ApplicationRecordsController::class, 'add_review'])->name('application-records.add-review');
 
-
+// Invoices
 Route::apiResource('invoices', InvoicesController::class);
 Route::get('/invoices/get-by-uuid/{uuid}', [InvoicesController::class, 'show_by_uuid'])->name('invoices.show-by-uuid');
