@@ -4,8 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Authentication\LoginRequest;
 use App\Http\Requests\Authentication\RegisterRequest;
+use App\Http\Requests\Users\UpdateProfileRequest;
+use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Http\Controllers\API\OtpController;
 use App\Models\User;
 use App\Models\UserRole;
@@ -117,8 +120,52 @@ class AuthenticationController extends Controller
         }
     }
 
+    public function update_password($user_id, UpdatePasswordRequest $request) {
+      try {
+        if(!$this->validate_old_password($request->old_password, $user_id)) {
+          return response()->json('Old password incorrect', 409);
+        }
+
+        User::findOrFail($user_id)->update([
+          'password' => bcrypt($request->new_password)
+        ]);
+
+        return response()->json('Account updated', 200);
+      } catch(Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
+
+    public function update_profile($user_id, UpdateProfileRequest $request) {
+      try {
+        // if($this->validate_email_exists($request->email)) {
+        //   return response()->json('Email already in use', 409);
+        // }
+        
+        User::findOrFail($user_id)->update([
+          'first_name' => $request->first_name,
+          'last_name' => $request->last_name,
+          'email' => $request->email,
+        ]);
+
+        return response()->json('Account updated', 200);
+      } catch(Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
+
+    public function validate_old_password($old_password, $user_id) {
+      $user = User::findOrFail($user_id);
+
+      return Hash::check($old_password, $user->password) ? true : false;
+    }
+
+    public function validate_email_exists($email) {
+      return count(User::where('email', $email)->get()) === 1 ? true : false;
+    }
+
     public function get_user_role(int $role_id = 0) {
-        $role = UserRole::find($role_id)->first();
+        $role = UserRole::find($role_id);
 
         if(!$role) {
             return 'invalid-user-type';

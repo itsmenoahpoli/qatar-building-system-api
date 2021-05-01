@@ -4,14 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Applications\ApplicationRecord;
 use App\Models\User;
 
 class UsersController extends Controller
 {
-    private $relationships;
+    private $relationships, $applicationsRelationship;
 
     public function __construct() {
       $this->relationships = ['application_records'];
+      $this->applicationsRelationship = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments', 'trail'];
     }
 
     /**
@@ -89,6 +91,17 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource (Get applications of user).
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function user_applictions($user_id) {
+      $application_records = ApplicationRecord::with($this->applicationsRelationship)->where('user_id', $user_id)->get();
+      return $application_records;
     }
 
     public function __deconstruct() {

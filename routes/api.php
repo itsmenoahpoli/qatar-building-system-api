@@ -31,8 +31,14 @@ Route::group(['prefix' => 'auth'], function() {
         Route::post('/request-otp/{email}', [OtpController::class, 'request_otp'])->name('auth.user.request-otp');
         Route::post('/verify-otp', [OtpController::class, 'verify_otp'])->name('auth.user.verify-otp');
 
+
+        // User Data (by modules <applications ....>)
+        Route::get('/application-records/{user_id}', [UsersController::class, 'user_applictions'])->name('auth.user.application-records');
+
         Route::group(['middleware' => 'auth:api'], function() {
-            Route::post('/current-user', [AuthenticationController::class, 'current_user'])->name('auth.user.current-user');
+            Route::get('/current-user', [AuthenticationController::class, 'current_user'])->name('auth.user.current-user');
+            Route::patch('/update-profile/{user_id}', [AuthenticationController::class, 'update_profile'])->name('auth.user.update-profile');
+            Route::patch('/update-password/{user_id}', [AuthenticationController::class, 'update_password'])->name('auth.user.update-password');
             Route::post('/logout', [AuthenticationController::class, 'logout'])->name('auth.user.logout');
         });
     });
