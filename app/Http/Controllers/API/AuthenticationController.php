@@ -97,6 +97,10 @@ class AuthenticationController extends Controller
 
     public function register(RegisterRequest $request) {
         try { 
+          if(User::whereEmail($request->email)->first()) {
+            return response()->json('Email already exist', 409);
+          }
+          
           User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
