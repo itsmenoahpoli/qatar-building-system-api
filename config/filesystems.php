@@ -52,6 +52,13 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'application_attachements' => [
+          'driver' => 'local',
+          'root' => storage_path('app/public/application-attachements'),
+          'url' => env('APP_URL').'/storage/application-attachements',
+          'visibility' => 'public',
+        ]
+
     ],
 
     /*
@@ -67,6 +74,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('storage/application-attachements') => storage_path('app/public/application-attachements')
     ],
 
 ];

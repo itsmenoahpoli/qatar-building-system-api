@@ -9,6 +9,7 @@ use App\Http\Controllers\API\UsersController;
 use App\Http\Controllers\API\OtpController;
 use App\Http\Controllers\API\StripePaymentsController;
 use App\Http\Controllers\API\EngineerCategoriesController;
+use App\Http\Controllers\API\ApplicationAttachementsController;
 use App\Http\Controllers\API\ApplicationRecordsController;
 use App\Http\Controllers\API\InvoicesController;
 
@@ -33,7 +34,8 @@ Route::group(['prefix' => 'auth'], function() {
 
 
         // User Data (by modules <applications ....>)
-        Route::get('/application-records/{user_id}', [UsersController::class, 'user_applictions'])->name('auth.user.application-records');
+        Route::get('/{user_id}/application-records/', [UsersController::class, 'user_applications'])->name('auth.user.application-records');
+        Route::get('/{user_id}/invoices/', [UsersController::class, 'user_invoices'])->name('auth.user.invoices');
 
         Route::group(['middleware' => 'auth:api'], function() {
             Route::get('/current-user', [AuthenticationController::class, 'current_user'])->name('auth.user.current-user');
@@ -70,6 +72,8 @@ Route::apiResource('engineer-categories', EngineerCategoriesController::class);
 Route::apiResource('application-records', ApplicationRecordsController::class);
 Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
 Route::post('/application-records/add-review', [ApplicationRecordsController::class, 'add_review'])->name('application-records.add-review');
+Route::post('/application-attachements/upload-attachement', [ApplicationAttachementsController::class, 'upload_attachement'])->name('application-records.upload-attachement');
+Route::get('/application-attachements/retrieve-attachement/{filename}', [ApplicationAttachementsController::class, 'retrieve_attachement'])->name('application-records.retrieve-attachement');
 
 // Invoices
 Route::apiResource('invoices', InvoicesController::class);
