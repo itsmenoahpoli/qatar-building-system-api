@@ -37,7 +37,7 @@ class ApplicationRecord extends Model
     }
 
     public function attachement_data() {
-        return $this->hasOne('App\Models\Applications\ApplicationAttachementData');
+        return $this->hasMany('App\Models\Applications\ApplicationAttachementData');
     }
 
     public function review_data() {
