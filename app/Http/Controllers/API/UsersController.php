@@ -13,7 +13,7 @@ class UsersController extends Controller
     private $relationships, $applicationsRelationship;
 
     public function __construct() {
-      $this->relationships = ['application_records'];
+      $this->relationships = ['application_records', 'user_role'];
       $this->invoicesRelationship = ['application_record', 'payment_record'];
       $this->applicationsRelationship = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments', 'trail'];
     }
@@ -23,9 +23,15 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+      $search = $request->get('q');
+
+      $users = User::with($this->relationships)->where('user_role_id' ,'!=', 6)->when(!empty($search), function($q) use ($search) {
+        return $q->where('first_name', 'LIKE', '%'.$search.'%');
+      })->latest()->get();
+
+      return $users;
     }
 
     /**
@@ -58,7 +64,19 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+          $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'user_role_id' => $request->user_role_id,
+          ]);
+
+          return response()->json($user, 201);
+        } catch(Exception $e) {
+          return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
@@ -69,7 +87,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        return 1;
+        return User::with($this->relationships)->findOrFail($id);
     }
 
     /**
@@ -92,7 +110,13 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+          User::findOrFail($id)->delete();
+
+          return response()->json('Deleted', 204);
+        } catch(Exception $e) {
+          return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
