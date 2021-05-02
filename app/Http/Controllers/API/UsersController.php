@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Applications\ApplicationRecord;
 use App\Models\Applications\ApplicationRecordPayment;
 use App\Models\User;
+use App\Traits\Mail;
 
 class UsersController extends Controller
 {
+    use Mail;
+
     private $relationships, $applicationsRelationship;
 
     public function __construct() {
@@ -71,6 +74,10 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'user_role_id' => $request->user_role_id,
+          ]);
+
+          $this->send_account_to_client($request->email, [
+            'password' => $request->password
           ]);
 
           return response()->json($user, 201);

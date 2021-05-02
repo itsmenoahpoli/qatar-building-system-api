@@ -25,7 +25,6 @@ class CreateApplicationReviewRequest extends FormRequest
     {
         return [
             'application_record_id' => 'required',
-            'engineer_category' => 'required',
             'status' => 'required',
             'comments' => 'min:3|max:100'
         ];
