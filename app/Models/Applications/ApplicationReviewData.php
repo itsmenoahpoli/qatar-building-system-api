@@ -10,4 +10,8 @@ class ApplicationReviewData extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function application_record() {
+      return $this->belongsTo('App\Models\Applications\ApplicationRecord');
+    }
 }

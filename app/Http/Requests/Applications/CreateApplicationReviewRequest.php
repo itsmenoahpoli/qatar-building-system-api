@@ -24,9 +24,9 @@ class CreateApplicationReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'application_record_id' => 'required',
             'engineer_category' => 'required',
+            'engineer_category_name' => 'required',
             'status' => 'required',
             'comments' => 'min:3|max:100'
         ];

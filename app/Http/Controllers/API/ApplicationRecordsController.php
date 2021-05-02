@@ -159,7 +159,7 @@ class ApplicationRecordsController extends Controller
               'uuid' => 'p_'.Str::random(10),
               'application_record_id' => $application_record->id,
               'payment_for' => 'services-dp-50%',
-              'amount' => $request->application_others_data['services_fees'].'0'
+              'amount' => intval($request->application_others_data['services_fees'].'0') / 2
             ]);
 
             $user = User::findOrFail($request->application_applicant_data['user_id']);

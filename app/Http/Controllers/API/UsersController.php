@@ -103,6 +103,7 @@ class UsersController extends Controller
      */
     public function user_applications($user_id, Request $request) {
         $search = $request->get('q');
+        $limit = $request->limit ?? 10000;
         $status = $request->get('status');
         $payment_status = $request->get('payment_status');
         $engineer_category = $request->get('engineer_category');
@@ -127,6 +128,7 @@ class UsersController extends Controller
           return $q->where('payment_status', $payment_status);
         })
         ->latest()
+        ->limit($limit)
         ->get();
 
         return $applications;
