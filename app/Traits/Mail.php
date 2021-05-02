@@ -21,7 +21,8 @@ Trait Mail {
 
   public function send_account_to_client($email, array $data) {
     try {
-      SendMail::to($email)->send(new PaymentLinkUrlMail([
+      SendMail::to($email)->send(new CreatedAccountMail([
+        'user_name' => $data['user_name'],
         'password' => $data['password'],
       ]));
     } catch(Exception $e) {

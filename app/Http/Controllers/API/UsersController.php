@@ -76,7 +76,10 @@ class UsersController extends Controller
             'user_role_id' => $request->user_role_id,
           ]);
 
+          $user_name = ($user->first_name.' '.$user->last_name);
+
           $this->send_account_to_client($request->email, [
+            'user_name' => $user_name,
             'password' => $request->password
           ]);
 

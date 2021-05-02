@@ -30,9 +30,10 @@ class CreatedAccount extends Mailable
      */
     public function build()
     {
-      return $this->markdown('emails.payments.payment-link-url')
+      return $this->markdown('emails.users.created-account')
       ->subject('KIC E-BPMS - User Created Account Credentials')
       ->with([
+        'user_name' => $this->content['user_name'],
         'password' => $this->content['password'],
       ]);
     }
