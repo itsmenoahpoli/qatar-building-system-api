@@ -32,7 +32,8 @@ class ApplicationAttachementsController extends Controller
           ApplicationAttachementData::create([
             'application_record_id' => $request->application_record_id,
             'attachement_type' => $request->attachement_type,
-            'file_path' => $file_path
+            'file_path' => $file_path,
+            'file_name' => $filename
           ]);
 
           return response()->json($file_path, 201);
