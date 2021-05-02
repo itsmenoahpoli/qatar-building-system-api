@@ -11,7 +11,7 @@ class PaymentRecord extends Model
 
     protected $guarded = [];
 
-    public function application_record_payment() {
-      return $this->hasOne('App\Models\Applications\ApplicationRecordPayment');
+    public function application_record() {
+      return $this->belongsTo('App\Models\Applications\ApplicationRecord');
     }
 }

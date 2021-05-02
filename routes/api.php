@@ -72,7 +72,7 @@ Route::apiResource('engineer-categories', EngineerCategoriesController::class);
 Route::apiResource('application-records', ApplicationRecordsController::class);
 Route::get('/application-records/get-by-uuid/{uuid}', [ApplicationRecordsController::class, 'show_by_uuid'])->name('application-records.show-by-uuid');
 Route::post('/application-records/add-review', [ApplicationRecordsController::class, 'add_review'])->name('application-records.add-review');
-Route::post('/application-attachements/upload-attachement', [ApplicationAttachementsController::class, 'upload_attachement'])->name('application-records.upload-attachement');
+Route::post('/application-attachements/upload-attachements', [ApplicationAttachementsController::class, 'upload_attachements'])->name('application-records.upload-attachements');
 Route::get('/application-attachements/retrieve-attachement/{filename}', [ApplicationAttachementsController::class, 'retrieve_attachement'])->name('application-records.retrieve-attachement');
 
 // Invoices

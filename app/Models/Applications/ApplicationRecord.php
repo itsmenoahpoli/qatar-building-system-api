@@ -48,6 +48,10 @@ class ApplicationRecord extends Model
       return $this->hasMany('App\Models\Applications\ApplicationRecordPayment');
     }
 
+    public function stripe_payment_reference() {
+      return $this->hasMany('App\Models\Payments\PaymentRecord');
+    }
+
     public function trail() {
       return $this->hasMany('App\Models\Applications\ApplicationRecordTrail');
     }

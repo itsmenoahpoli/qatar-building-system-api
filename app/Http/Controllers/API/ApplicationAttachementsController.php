@@ -16,7 +16,7 @@ class ApplicationAttachementsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function upload_attachement(Request $request) {
+    public function upload_attachements(Request $request) {
       try {
         if($request->hasFile('file')) {
           $fileWithExtension = $request->file('file')->getClientOriginalName();

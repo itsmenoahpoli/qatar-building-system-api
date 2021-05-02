@@ -31,7 +31,7 @@ class ApplicationRecordsController extends Controller
     private $relationships;
 
     public function __construct() {
-        $this->relationships = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments', 'trail'];
+        $this->relationships = ['applicant_user', 'property_data', 'owner_data', 'applicant_data', 'project_data', 'others_data', 'review_data', 'attachement_data', 'payments', 'stripe_payment_reference', 'trail'];
     }
 
     /**
