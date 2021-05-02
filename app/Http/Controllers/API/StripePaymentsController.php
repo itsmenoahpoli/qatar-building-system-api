@@ -52,7 +52,12 @@ class StripePaymentsController extends Controller
           'source' => $token
         ]);
 
+        $application_record = ApplicationRecord::findOrFail($application_payment_record->application_record_id);
+        $application_record->payment_status = $application_payment_record->payment_for;
+        $application_record->save();
+
         $payment_record = PaymentRecord::create([
+          'application_record_id' => $application_record->id,
           'stripe_payment_id' => $payment_charge->id,
           'payment_object_json' => json_encode($payment_charge),
           'status' => $payment_charge->paid ? "paid" : "on-hold/failed",
@@ -64,9 +69,7 @@ class StripePaymentsController extends Controller
         $application_payment_record->payment_record_id = $payment_record->id;
         $application_payment_record->save();
 
-        $application_record = ApplicationRecord::findOrFail($application_payment_record->application_record_id);
-        $application_record->payment_status = $application_payment_record->payment_for;
-        $application_record->save();
+        
 
         $this->application_trail([
           'application_record_id' => $application_record->id,

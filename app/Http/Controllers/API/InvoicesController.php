@@ -19,9 +19,19 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('q');
+        $payment_for = $request->get('payment_for');
+
         $invoices = ApplicationRecordPayment::with($this->relationships)
+                    ->whereHas('application_record', function ($q) use ($search) {
+                      return $q->when(!empty($search), function ($y) use ($search) {
+                        $y->where('uuid', 'LIKE', '%'.$search.'%')
+                          ->orWhere('status', 'LIKE', '%'.$search.'%');
+                      });
+                    })
+                    ->where('payment_for', 'LIKE', '%'.$payment_for.'%')
                     ->latest()->get();
 
         return $invoices;

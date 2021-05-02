@@ -12,6 +12,7 @@ use App\Http\Controllers\API\EngineerCategoriesController;
 use App\Http\Controllers\API\ApplicationAttachementsController;
 use App\Http\Controllers\API\ApplicationRecordsController;
 use App\Http\Controllers\API\InvoicesController;
+use App\Http\Controllers\API\PaymentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,3 +79,7 @@ Route::get('/application-attachements/retrieve-attachement/{filename}', [Applica
 // Invoices
 Route::apiResource('invoices', InvoicesController::class);
 Route::get('/invoices/get-by-uuid/{uuid}', [InvoicesController::class, 'show_by_uuid'])->name('invoices.show-by-uuid');
+
+// Payments
+Route::get('/payment-records', [PaymentsController::class, 'index'])->name('payments.index');
+Route::get('/payment-records/{id}', [PaymentsController::class, 'show'])->name('payments.show');
