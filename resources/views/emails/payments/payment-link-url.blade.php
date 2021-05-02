@@ -1,6 +1,6 @@
 @component('mail::message') Hi, <b>{{ $user_name }}</b>
 
-### Please click or follow the URL below to proceed to your payment
+{{ $message ?? "Please click or follow the URL below to proceed to your payment" }}
 
 <br />
 

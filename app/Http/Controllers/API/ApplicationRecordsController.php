@@ -165,6 +165,7 @@ class ApplicationRecordsController extends Controller
             $user = User::findOrFail($request->application_applicant_data['user_id']);
 
             $this->send_payment_url_to_client($user->email, [
+              'message' => 'We have submitted your building permit application with application no. '.$application_record->uuid.'. In order to proceed with the process, kindly settle the service fee DP',
               'user_name' => $user->first_name.' '.$user->last_name,
               'payment_link' => config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid
             ]);
@@ -191,6 +192,72 @@ class ApplicationRecordsController extends Controller
         } catch(Exception $e) {
             DB::rollback();
             return response()->json('Failed', 500);
+        }
+    }
+
+    /**
+     * Update the approval status specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_approval(Request $request)
+    {
+        $application = ApplicationRecord::with($this->relationships)->findOrFail($request->application_record_id);
+
+        try {
+          if($request->approval_status === "approved") {
+            $application->status = 'approved';
+            $application->save();
+
+            $application_services_completion_fee = ApplicationRecordPayment::where([
+              'application_record_id' => $request->application_record_id,
+              'payment_for' => 'services-dp-50%'
+            ])->first();
+
+            $final_payment_fee = intval($request->bp_fees.'0') + intval($application_services_completion_fee->amount);
+
+            
+            $application_payment_record = ApplicationRecordPayment::create([
+              'uuid' => 'p_'.Str::random(10),
+              'application_record_id' => $application->id,
+              'payment_for' => 'final-payment',
+              'amount' => $final_payment_fee
+            ]);
+
+            $this->send_payment_url_to_client($application->applicant_user->email, [
+              'message' => 'Your application with application no. '.$application->uuid.' has been approved. In order to print or download the permit, kindly settle the service fee full payment and building permit fees.',
+              'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
+              'payment_link' => config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid
+            ]);
+
+
+            return response()->json([
+              'message' => 'Your application with application no. '.$application->uuid.' has been approved. In order to print or download the permit, kindly settle the service fee full payment and building permit fees.',
+              'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
+              'payment_link' => config('stripe.payment_urls.PRODUCTION').'/stripe-payments/payment/'.$application_payment_record->uuid
+            ], 200);
+          }
+
+          if($request->approval_status === "rejected") {
+            $application->status = 'rejected';
+            $application->save();
+
+            $this->send_payment_url_to_client($application->applicant_user->email, [
+              'message' => 'Your application with application no. '.$application->uuid.' has been rejected. In order to proceed with the application, kindly comply according to the below comments. -> '.$application->other_comments,
+              'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
+              'payment_link' => "--"
+            ]);
+            
+
+            return response()->json([
+              'message' => 'Your application with application no. '.$application->uuid.' has been rejected. In order to proceed with the application, kindly comply according to the below comments. -> '.$application->other_comments,
+              'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
+              'payment_link' => "--"
+            ], 200);
+          }
+        } catch(Exception $e) {
+          return response()->json('Failed', 500);
         }
     }
 

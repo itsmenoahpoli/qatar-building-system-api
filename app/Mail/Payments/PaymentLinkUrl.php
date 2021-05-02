@@ -31,8 +31,9 @@ class PaymentLinkUrl extends Mailable
     public function build()
     {
       return $this->markdown('emails.payments.payment-link-url')
-      ->subject('Application Payment Link')
+      ->subject('KIC E-BPMS - Application Record Notification')
       ->with([
+        'message' => $this->content['message'],
         'user_name' => $this->content['user_name'],
         'payment_link' => $this->content['payment_link'],
       ]);
