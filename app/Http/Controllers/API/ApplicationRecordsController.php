@@ -156,6 +156,7 @@ class ApplicationRecordsController extends Controller
 
             // Initiate Payment Record (with is_paid = false)
             $application_payment_record = ApplicationRecordPayment::create([
+              "user_id" => $request->application_applicant_data['user_id'],
               'uuid' => 'p_'.Str::random(10),
               'application_record_id' => $application_record->id,
               'payment_for' => 'services-dp-50%',
@@ -221,6 +222,7 @@ class ApplicationRecordsController extends Controller
 
             
             $application_payment_record = ApplicationRecordPayment::create([
+              "user_id" => $application->user_id,
               'uuid' => 'p_'.Str::random(10),
               'application_record_id' => $application->id,
               'payment_for' => 'final-payment',
