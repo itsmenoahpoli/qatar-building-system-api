@@ -260,6 +260,17 @@ class ApplicationRecordsController extends Controller
               'payment_link' => "--"
             ], 200);
           }
+
+          if($request->approval_status === "pending") {
+            $application->status = "pending";
+            $application->save();
+
+            return response()->json([
+              'message' => 'Your application with application no. '.$application->uuid.' status has been updated to pending.',
+              'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
+              'payment_link' => "--"
+            ], 200);
+          }
         } catch(Exception $e) {
           return response()->json('Failed', 500);
         }
@@ -415,7 +426,8 @@ class ApplicationRecordsController extends Controller
         
     }
 
-    public function add_application_payment(CreatePaymentRequest $request) {
+    public function add_application_payment(CreatePaymentRequest $request) 
+    {
       try {
         DB::beginTransaction();
 

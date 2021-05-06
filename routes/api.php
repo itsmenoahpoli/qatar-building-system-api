@@ -77,6 +77,7 @@ Route::post('/application-records/add-review', [ApplicationRecordsController::cl
 Route::post('/application-records/update-approval', [ApplicationRecordsController::class, 'update_approval'])->name('application-records.update-approval');
 Route::post('/application-attachements/upload-attachements', [ApplicationAttachementsController::class, 'upload_attachements'])->name('application-records.upload-attachements');
 Route::get('/application-attachements/retrieve-attachement/{filename}', [ApplicationAttachementsController::class, 'retrieve_attachement'])->name('application-records.retrieve-attachement');
+Route::get('/application-attachements/download-attachement/{filename}', [ApplicationAttachementsController::class, 'download_attachement'])->name('application-records.download-attachement');
 
 // Invoices
 Route::apiResource('invoices', InvoicesController::class);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Applications\ApplicationAttachementData;
+use Response;
 use Storage;
 
 class ApplicationAttachementsController extends Controller
@@ -32,8 +33,9 @@ class ApplicationAttachementsController extends Controller
           ApplicationAttachementData::create([
             'application_record_id' => $request->application_record_id,
             'attachement_type' => $request->attachement_type,
-            'file_path' => $file_path,
-            'file_name' => $filename
+            'file_path' => 'application-attachements/'.$attachement_filename,
+            'file_name' => $filename,
+            'file_extension' => '.'.$fileExtension
           ]);
 
           return response()->json($file_path, 201);
@@ -41,5 +43,23 @@ class ApplicationAttachementsController extends Controller
       } catch(Exception $e) {
         return response()->json($e->getMessage(), 500);
       }
+    }
+
+    /**
+     * Return file from public storage folder
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function download_attachement($fileId)
+    {
+      $attachement = ApplicationAttachementData::findOrFail($fileId);
+
+
+      $file = './storage/'.$attachement->file_path;
+      $headers = array('Content-Type: application/*',);
+
+      $downloadFileName = $attachement->file_name.$attachement->file_extension;
+
+      return Response::download($file, $downloadFileName, $headers);
     }
 }
