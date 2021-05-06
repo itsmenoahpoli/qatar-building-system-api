@@ -180,10 +180,11 @@ class UsersController extends Controller
 
         $user_invoices = [];
 
-        foreach($invoices as $invoice) {
-          // array_push($user_invoices, $invoice['application_record']['user_id']);
-          if($user_id == $invoice['application_record']['user_id']) {
-            array_push($user_invoices, $invoice);
+        if(count($invoices) > 0) {
+          foreach($invoices as $invoice) {
+            if($user_id == $invoice['application_record']['user_id']) {
+              array_push($user_invoices, $invoice);
+            }
           }
         }
 
