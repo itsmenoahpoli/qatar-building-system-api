@@ -209,6 +209,7 @@ class ApplicationRecordsController extends Controller
           if($request->approval_status === "approved") {
             $application->status = 'approved';
             $application->other_review_comments = $request->other_review_comments;
+            $application->bp_fees = $request->bp_fees;
             $application->save();
 
             $application_services_completion_fee = ApplicationRecordPayment::where([
