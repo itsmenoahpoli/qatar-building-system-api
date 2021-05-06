@@ -182,10 +182,12 @@ class UsersController extends Controller
 
         if(count($invoices) > 0) {
           foreach($invoices as $invoice) {
-            array_push($user_invoices, $invoice->application_record->user_id);
-            // if($invoice && $user_id == $invoice['application_record']['user_id']) {
-            //   array_push($user_invoices, $invoice);
-            // }
+            foreach($invoice->application_record as $application_record) {
+              array_push($user_invoices, $application_record);
+              // if($invoice && $user_id == $invoice['application_record']['user_id']) {
+              //   array_push($user_invoices, $invoice);
+              // }
+            }
           }
         }
 
