@@ -178,18 +178,7 @@ class UsersController extends Controller
         $invoices = ApplicationRecordPayment::with($this->invoicesRelationship)
                     ->latest()->get();
 
-        $user_invoices = [];
-
-        if(count($invoices) > 0) {
-          foreach($invoices as $invoice) {
-            $application = ApplicationRecord::where('user_id', $invoice->application_record_id)->first();
-            if($user_id == $application->user_id) {
-              array_push($user_invoices, $application);
-            }
-          }
-        }
-
-        return $user_invoices;
+        return $invoices;
   }
 
     public function __deconstruct() {
