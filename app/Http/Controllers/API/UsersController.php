@@ -176,6 +176,7 @@ class UsersController extends Controller
      */
     public function user_invoices($user_id, Request $request) {
         $invoices = ApplicationRecordPayment::with($this->invoicesRelationship)
+                    ->where('user_id', $user_id)
                     ->latest()->get();
 
         return $invoices;
