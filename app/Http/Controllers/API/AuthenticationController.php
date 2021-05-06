@@ -136,6 +136,19 @@ class AuthenticationController extends Controller
       }
     }
 
+    public function reset_password(Request $request) {
+      try {
+
+        User::where('email', $request->email)->update([
+          'password' => bcrypt($request->password)
+        ]);
+
+        return response()->json('Account updated', 200);
+      } catch(Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
+    }
+
     public function update_profile($user_id, UpdateProfileRequest $request) {
       try {
         // if($this->validate_email_exists($request->email)) {

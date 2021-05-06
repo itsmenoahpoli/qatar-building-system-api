@@ -11,6 +11,7 @@ Trait Mail {
     try {
       SendMail::to($email)->send(new PaymentLinkUrlMail([
         'message' => $data['message'],
+        'comments' => $data['comments'] ?? "",
         'user_name' => $data['user_name'],
         'payment_link' => $data['payment_link'], 
       ]));

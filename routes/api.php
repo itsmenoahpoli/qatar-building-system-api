@@ -32,6 +32,7 @@ Route::group(['prefix' => 'auth'], function() {
         Route::post('/register', [AuthenticationController::class, 'register'])->name('auth.user.register');
         Route::post('/request-otp/{email}', [OtpController::class, 'request_otp'])->name('auth.user.request-otp');
         Route::post('/verify-otp', [OtpController::class, 'verify_otp'])->name('auth.user.verify-otp');
+        Route::patch('/reset-password', [AuthenticationController::class, 'reset_password'])->name('auth.user.reset-password');
 
 
         // User Data (by modules <applications ....>)

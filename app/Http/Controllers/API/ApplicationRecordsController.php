@@ -208,6 +208,7 @@ class ApplicationRecordsController extends Controller
         try {
           if($request->approval_status === "approved") {
             $application->status = 'approved';
+            $application->other_review_comments = $request->other_review_comments;
             $application->save();
 
             $application_services_completion_fee = ApplicationRecordPayment::where([
@@ -241,17 +242,19 @@ class ApplicationRecordsController extends Controller
 
           if($request->approval_status === "rejected") {
             $application->status = 'rejected';
+            $application->other_review_comments = $request->other_review_comments;
             $application->save();
 
             $this->send_payment_url_to_client($application->applicant_user->email, [
-              'message' => 'Your application with application no. '.$application->uuid.' has been rejected. In order to proceed with the application, kindly comply according to the below comments. -> '.$application->other_comments,
+              'message' => 'Your application with application no. '.$application->uuid.' has been rejected. In order to proceed with the application, kindly comply according to the below comments.',
+              'comments' => $application->other_review_comments,
               'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
               'payment_link' => "--"
             ]);
             
 
             return response()->json([
-              'message' => 'Your application with application no. '.$application->uuid.' has been rejected. In order to proceed with the application, kindly comply according to the below comments. -> '.$application->other_comments,
+              'message' => 'Your application with application no. '.$application->uuid.' has been rejected. In order to proceed with the application, kindly comply according to the below comments.',
               'user_name' => $application->applicant_user->first_name.' '.$application->applicant_user->last_name,
               'payment_link' => "--"
             ], 200);

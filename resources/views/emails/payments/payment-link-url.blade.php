@@ -4,9 +4,14 @@
 
 <br />
 
-<small>Your payment link</small>
 @component('mail::panel')
-<a href="{{ $payment_link }}" target="_blank">{{ $payment_link }}</a>
+
+  @if($comments)
+    {{$comments}}
+  @else
+    <small>Your payment link</small>
+    <a href="{{ $payment_link }}" target="_blank">{{ $payment_link }}</a>
+  @endif
 
 @endcomponent
 

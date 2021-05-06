@@ -26,7 +26,7 @@ class ResetPasswordRequest extends FormRequest
         return [
             'reset_otp' => 'string|required|min:8',
             'user_id' => 'required',
-            'password' => 'string|required|min:8|max:16',
+            'password' => 'string|required|min:8|max:32',
         ];
     }
 }

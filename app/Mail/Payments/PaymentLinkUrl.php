@@ -34,6 +34,7 @@ class PaymentLinkUrl extends Mailable
       ->subject('KIC E-BPMS - Application Record Notification')
       ->with([
         'message' => $this->content['message'],
+        'comments' => $this->content['comments'],
         'user_name' => $this->content['user_name'],
         'payment_link' => $this->content['payment_link'],
       ]);
