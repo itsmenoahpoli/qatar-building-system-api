@@ -74,7 +74,7 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'user_role_id' => $request->user_role_id,
-            'is_new_user' => true,
+            'is_new_user' => 1,
           ]);
 
           $user_name = ($user->first_name.' '.$user->last_name);

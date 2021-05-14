@@ -25,6 +25,7 @@ class User extends Authenticatable
         'is_enabled',
         'is_verified',
         'user_role_id',
+        'is_new_user'
     ];
 
     /**
