@@ -110,7 +110,12 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      try {
+        User::findOrFail($id)->update($request->all());
+        return response()->json('Updated', 200);
+      } catch(Exception $e) {
+        return response()->json($e->getMessage(), 500);
+      }
     }
 
     /**
@@ -120,9 +125,14 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_email(Request $request, $id)
+    public function update_info(Request $request, $id)
     {
-        //
+        try {
+          User::findOrFail($id)->update($request->all());
+          return response()->json('Updated', 200);
+        } catch(Exception $e) {
+          return response()->json($e->getMessage(), 500);
+        }
     }
 
     /**
