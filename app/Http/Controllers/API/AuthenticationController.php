@@ -42,23 +42,31 @@ class AuthenticationController extends Controller
         if(Auth::attempt($credentials)) {
             $accessToken = Auth::user()->createToken('accessToken')->accessToken;
 
-            $this->save_authentication_log([
-                'user_id' => Auth::user()->id, 
-                'message' => 'Successfully logged-in'
-            ]);
-
-            $this->user_trail([
-                'user_id' => Auth::user()->id, 
-                'message' => Auth::user()->first_name.' '.Auth::user()->last_name.' successfully logged-in to the system'
-            ]);
-
-            $this->otp_controller->request_otp(Auth::user()->email, "login_verify");
-
-            return response()->json([
+            if(Auth::user()->is_new_user === 1) {
+              return response()->json([
                 'accessToken' => $accessToken,
                 'user' => Auth::user(),
                 'user_type' => $this->get_user_role(Auth::user()->user_role_id)
-            ], 200);
+              ], 200);
+            } else {
+              $this->save_authentication_log([
+                'user_id' => Auth::user()->id, 
+                'message' => 'Successfully logged-in'
+              ]);
+
+              $this->user_trail([
+                  'user_id' => Auth::user()->id, 
+                  'message' => Auth::user()->first_name.' '.Auth::user()->last_name.' successfully logged-in to the system'
+              ]);
+
+              $this->otp_controller->request_otp(Auth::user()->email, "login_verify");
+
+              return response()->json([
+                  'accessToken' => $accessToken,
+                  'user' => Auth::user(),
+                  'user_type' => $this->get_user_role(Auth::user()->user_role_id)
+              ], 200);
+            }
         } else {
           return response()->json('User not found', 404);
         }
@@ -140,7 +148,8 @@ class AuthenticationController extends Controller
       try {
 
         User::where('email', $request->email)->update([
-          'password' => bcrypt($request->password)
+          'password' => bcrypt($request->password),
+          'is_new_user' => false
         ]);
 
         return response()->json('Account updated', 200);

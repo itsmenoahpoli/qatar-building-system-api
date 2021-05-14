@@ -74,6 +74,7 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'user_role_id' => $request->user_role_id,
+            'is_new_user' => true,
           ]);
 
           $user_name = ($user->first_name.' '.$user->last_name);
@@ -108,6 +109,18 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource (email field) in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update_email(Request $request, $id)
     {
         //
     }
